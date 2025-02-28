@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>glibc2.27-2.35 tcache堆利用 | tgrddf55's Blog</title><meta name="author" content="tgrddf55"><meta name="copyright" content="tgrddf55"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言本文记录了glibc2.27-glibc2.35关于tcache堆利用的一些变化 参考文章:  https:&#x2F;&#x2F;www.freebuf.com&#x2F;articles&#x2F;system&#x2F;234219.html https:&#x2F;&#x2F;www.roderickchan.cn&#x2F;zh-cn&#x2F;2023-03-01-analysis-of-glibc-heap-exploitation-in-high-version&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="glibc2.27-2.35 tcache堆利用">
+<meta property="og:url" content="http://example.com/2025/02/28/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/index.html">
+<meta property="og:site_name" content="tgrddf55&#39;s Blog">
+<meta property="og:description" content="前言本文记录了glibc2.27-glibc2.35关于tcache堆利用的一些变化 参考文章:  https:&#x2F;&#x2F;www.freebuf.com&#x2F;articles&#x2F;system&#x2F;234219.html https:&#x2F;&#x2F;www.roderickchan.cn&#x2F;zh-cn&#x2F;2023-03-01-analysis-of-glibc-heap-exploitation-in-high-version&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/52.jpg">
+<meta property="article:published_time" content="2025-02-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-02-27T16:00:00.000Z">
+<meta property="article:author" content="tgrddf55">
+<meta property="article:tag" content="pwn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/52.jpg"><link rel="shortcut icon" href="/imgs/tgrddf55.jpg"><link rel="canonical" href="http://example.com/2025/02/28/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'glibc2.27-2.35 tcache堆利用',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-02-28 00:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/imgs/tgrddf55.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/image/52.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="tgrddf55's Blog"><span class="site-name">tgrddf55's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">glibc2.27-2.35 tcache堆利用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-27T16:00:00.000Z" title="发表于 2025-02-28 00:00:00">2025-02-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-27T16:00:00.000Z" title="更新于 2025-02-28 00:00:00">2025-02-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/PWN/">PWN</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="glibc2.27-2.35 tcache堆利用"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文记录了glibc2.27-glibc2.35关于tcache堆利用的一些变化</p>
+<p>参考文章:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/system/234219.html">https://www.freebuf.com/articles/system/234219.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.roderickchan.cn/zh-cn/2023-03-01-analysis-of-glibc-heap-exploitation-in-high-version/">https://www.roderickchan.cn/zh-cn/2023-03-01-analysis-of-glibc-heap-exploitation-in-high-version/</a></p>
+</blockquote>
+<h1 id="glibc2-27"><a href="#glibc2-27" class="headerlink" title="glibc2.27"></a>glibc2.27</h1><p>在 <strong>glibc 2.27</strong> 版本中，引入了 <strong>tcache</strong> 机制，用于优化堆分配的性能。tcache 适用于 <strong>0x20 到 0x410</strong> 字节范围内的小块内存。释放堆块时，glibc 会优先检查对应大小的 tcache 是否已满，只有在 tcache 满载时，堆块才会被存入 <strong>fastbin</strong> 或 <strong>unsorted bin</strong> 等其他 bin 结构。每个 tcache bin 最多可存储 <strong>7</strong> 个堆块。</p>
+<p>在 <strong>glibc 2.27</strong> 及更早的版本中，tcache 机制缺乏安全性检查，允许 <strong>任意 double free</strong>。攻击者可以修改 tcache 中堆块的 <strong>fd 指针</strong>，该指针指向的是前一个堆块的 <strong>user data 段</strong>，并且 glibc <strong>不会检查 size 字段</strong>，从而可以伪造指针，实现 <strong>任意地址分配</strong>。这一漏洞利用手法被称为 <strong>tcache poisoning</strong>（tcache 污染）。</p>
+<h1 id="glibc2-31"><a href="#glibc2-31" class="headerlink" title="glibc2.31"></a>glibc2.31</h1><p>在 <strong>glibc 2.31</strong> 版本中，<strong>tcache 结构体</strong> 新增了 <strong>key 字段</strong>，用于增强安全性。</p>
+<p>当一个堆块被释放并进入 <strong>tcache</strong> 时，glibc 会首先检查该堆块的 <strong>key 字段</strong> 是否等于当前线程 <strong>tcache_perthread_struct</strong> 结构体的地址：</p>
+<ul>
+<li>如果 <strong>key 字段不同</strong>，则允许将该堆块存入 tcache，并将 <strong>key 字段更新为 tcache 地址</strong>。</li>
+<li>如果 <strong>key 字段相同</strong>，glibc 则会遍历 tcache 链表，检查其中是否已存在该堆块，从而防止 <strong>double free</strong>。</li>
+</ul>
+<p>因此，若要绕过此检查并 <strong>对同一 tcache 级别的堆块进行 double free</strong>，可以在释放前 <strong>手动修改 key 字段为其他值</strong>，再执行 <code>free</code>，从而成功绕过重复释放检测。</p>
+<h1 id="glibc2-35"><a href="#glibc2-35" class="headerlink" title="glibc2.35"></a>glibc2.35</h1><ul>
+<li><code>tcachebin</code> 堆指针异或加密（<code>glibc-2.32</code> 引入）</li>
+<li><code>tcahebin</code> 链的数量检查（<code>glibc-2.33</code> 引入）</li>
+<li><code>fastbin</code> 堆指针异或加密（<code>glibc-2.32</code> 引入）</li>
+<li>堆内存对齐检查（<code>glibc-2.32</code> 引入）</li>
+<li>移除<code>__malloc_hook</code> 和<code>__free_hook</code>（<code>glibc-2.34</code> 引入）</li>
+<li>引入 <code>tcache_key</code> 作为 <code>tcache</code> 的 <code>key</code> 检查（<code>glibc-2.34</code> 引入）</li>
+</ul>
+<h2 id="tcachebin-堆指针异或加密"><a href="#tcachebin-堆指针异或加密" class="headerlink" title="tcachebin 堆指针异或加密"></a><code>tcachebin</code> 堆指针异或加密</h2><p>在 <strong>glibc 2.31</strong> 及更高版本中，tcache 机制针对 <strong>fd 指针</strong> 引入了新的保护措施，使其不再是简单的前一个堆块地址，而是经过以下处理：</p>
+<ol>
+<li>取当前堆块的地址并 <strong>左移 12 位</strong>。</li>
+<li>将该值与原本应存入的 <strong>fd 指针值（前一个堆块的地址）</strong> 进行 <strong>XOR 运算</strong>，得到新的 <strong>fd 值</strong>。</li>
+</ol>
+<h3 id="绕过方法"><a href="#绕过方法" class="headerlink" title="绕过方法"></a>绕过方法</h3><p>当 <strong>tcache 仅存有一个堆块</strong> 时，可以通过其 <strong>fd 指针</strong> 提取用于加密的 <strong>XOR 密钥</strong>：</p>
+<ul>
+<li>读取 <strong>fd 指针值</strong>，然后左移 12 位，即可得到 <strong>堆地址</strong>。</li>
+<li>该泄漏的堆地址可用于后续的 <strong>解密</strong> 和 <strong>伪造 fd 指针</strong>。</li>
+</ul>
+<p>在 <strong>伪造 fd 指针</strong> 时：</p>
+<ul>
+<li>计算目标 fd 指向的地址，即伪造的下一个堆块地址。</li>
+<li>用此地址与 <strong>泄漏的 XOR 密钥</strong> 进行 XOR 计算，得到正确的加密 fd 值。</li>
+<li>将计算出的 <strong>伪造 fd</strong> 写入目标堆块，确保其符合 tcache 机制的检查。</li>
+</ul>
+<p><strong>注意</strong>：后续申请的堆块地址应尽量接近泄漏的堆块地址，避免因地址差距过大导致 <strong>XOR 计算的密钥变化</strong>，影响利用成功率。</p>
+<h2 id="tcache-链数量检查"><a href="#tcache-链数量检查" class="headerlink" title="tcache 链数量检查"></a>tcache 链数量检查</h2><p>从tcache中重新申请堆块时，会检查当前tcache的数量，如果数量为0，就不会再从tcache中申请。</p>
+<p>在此之前，可以在tcache的第一个堆块的fd位置进行tcache poisoning，现在需要多申请至少一个，然后在第二个上改。</p>
+<h2 id="堆内存对齐检查"><a href="#堆内存对齐检查" class="headerlink" title="堆内存对齐检查"></a>堆内存对齐检查</h2><p>通过错位来申请堆块变成历史，申请的堆块必须对其0x10。</p>
+<h2 id="引入-tcache-key-作为-tcache-的-key-检查"><a href="#引入-tcache-key-作为-tcache-的-key-检查" class="headerlink" title="引入 tcache_key 作为 tcache 的 key 检查"></a>引入 <code>tcache_key</code> 作为 <code>tcache</code> 的 <code>key</code> 检查</h2><p>tcache_key是一个随机的值，每次放入tcache的堆块的key字段都是随机值，无法通过泄漏tcache的key字段来泄漏堆地址。</p>
+<h2 id="移除-malloc-hook-和-free-hook"><a href="#移除-malloc-hook-和-free-hook" class="headerlink" title="移除__malloc_hook 和__free_hook"></a>移除<code>__malloc_hook</code> 和<code>__free_hook</code></h2><p>在2.34以前，可以通过向这两个钩子函数写入system地址或者one_gadget地址来实现getshell，现在成为了历史。</p>
+<p>一般来说glibc2.35以后的getshell，可以通过篡改IO_FILE结构体来实现，也可以通过下面这种办法：</p>
+<p><strong>在Linux C中，environ是一个全局变量，它储存着系统的环境变量。</strong></p>
+<p>它储存在libc中</p>
+<p>因此environ是沟通libc地址与栈地址的桥梁。</p>
+<p>通过libc找到environ地址后，泄露environ地址处的值，可以得到环境变量地址，环境变量保存在栈中，通过偏移可以得到栈上任意变量的地址。</p>
+<p>可以通过计算得到edit函数的返回地址，然后向该地址写入rop链从而实现getshell。</p>
+<p>以下是我写的一篇题解</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.nssctf.cn/note/set/11600">https://www.nssctf.cn/note/set/11600</a></p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">tgrddf55</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/02/28/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/">http://example.com/2025/02/28/2025-02-28-glibc2.27-2.35 tcache堆利用/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">tgrddf55's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/pwn/">pwn</a></div><div class="post_share"><div class="social-share" data-image="/image/52.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks"><img class="cover" src="/image/32.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">asis_2016_b00ks</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/07/12/2023-07-12-pwn%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BB%86%E8%8A%82%E7%82%B9/" title="学习pwn"><img class="cover" src="/image/34.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-12</div><div class="title">学习pwn</div></div></a></div><div><a href="/2023/07/13/2023-07-13-nssctf%E7%9A%84%E4%B8%80%E9%81%93pwn%E9%A2%98%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2+ret2txt/" title="格式化字符串+ret2txt"><img class="cover" src="/image/23.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-13</div><div class="title">格式化字符串+ret2txt</div></div></a></div><div><a href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit"><img class="cover" src="/image/54.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-18</div><div class="title">house_of_spirit</div></div></a></div><div><a href="/2024/10/18/2024-10-18-%E5%A0%86%E7%9F%A5%E8%AF%86/" title="堆1"><img class="cover" src="/image/17.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-18</div><div class="title">堆1</div></div></a></div><div><a href="/2024/10/16/2024-10.16-pwn%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BB%86%E8%8A%82%E7%82%B92/" title="学习pwn2"><img class="cover" src="/image/16.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-16</div><div class="title">学习pwn2</div></div></a></div><div><a href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017"><img class="cover" src="/image/48.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-21</div><div class="title">babyheap_0ctf_2017</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/imgs/tgrddf55.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">tgrddf55</div><div class="author-info__description">几时归去，做个闲人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/tgrddf55" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/455700704" target="_blank" title="bilibili"><i class="fab fa-bilibili" style="color: #00aeff;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#glibc2-27"><span class="toc-text">glibc2.27</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#glibc2-31"><span class="toc-text">glibc2.31</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#glibc2-35"><span class="toc-text">glibc2.35</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tcachebin-%E5%A0%86%E6%8C%87%E9%92%88%E5%BC%82%E6%88%96%E5%8A%A0%E5%AF%86"><span class="toc-text">tcachebin 堆指针异或加密</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95"><span class="toc-text">绕过方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tcache-%E9%93%BE%E6%95%B0%E9%87%8F%E6%A3%80%E6%9F%A5"><span class="toc-text">tcache 链数量检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90%E6%A3%80%E6%9F%A5"><span class="toc-text">堆内存对齐检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5-tcache-key-%E4%BD%9C%E4%B8%BA-tcache-%E7%9A%84-key-%E6%A3%80%E6%9F%A5"><span class="toc-text">引入 tcache_key 作为 tcache 的 key 检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%BB%E9%99%A4-malloc-hook-%E5%92%8C-free-hook"><span class="toc-text">移除__malloc_hook 和__free_hook</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/02/28/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用"><img src="/image/52.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="glibc2.27-2.35 tcache堆利用"/></a><div class="content"><a class="title" href="/2025/02/28/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用">glibc2.27-2.35 tcache堆利用</a><time datetime="2025-02-27T16:00:00.000Z" title="发表于 2025-02-28 00:00:00">2025-02-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks"><img src="/image/32.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="asis_2016_b00ks"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks">asis_2016_b00ks</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn"><img src="/image/15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="领航杯2024决赛pwn"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn">领航杯2024决赛pwn</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017"><img src="/image/48.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="babyheap_0ctf_2017"/></a><div class="content"><a class="title" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017">babyheap_0ctf_2017</a><time datetime="2024-10-20T16:00:00.000Z" title="发表于 2024-10-21 00:00:00">2024-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit"><img src="/image/54.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="house_of_spirit"/></a><div class="content"><a class="title" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit">house_of_spirit</a><time datetime="2024-10-17T16:00:00.000Z" title="发表于 2024-10-18 00:00:00">2024-10-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/image/52.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By tgrddf55</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
