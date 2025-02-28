@@ -1,0 +1,245 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>对exe文件脱壳之后的重建输入表以及函数的转发 | tgrddf55's Blog</title><meta name="author" content="tgrddf55"><meta name="copyright" content="tgrddf55"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="对exe文件脱壳之后的重建输入表以及函数的转发作者：tgrddf55 一.问题引入在b站视频（BV1LL4y1n7Af）crackme 第十个视频ceycey中，笔者按照视频所演示的进行脱壳，却发现dump之后的exe文件无法打开，在师傅的指引下，知晓了这可能是本机的windows系统版本太高的问题，并且这个问题可以通过重建输入表来解决，于是笔者开始了重建输入表的学习。  本篇内容包括PE文件中的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对exe文件脱壳之后的重建输入表以及函数的转发">
+<meta property="og:url" content="http://example.com/2023/02/28/2023-02-28-%E9%87%8D%E5%BB%BA%E8%BE%93%E5%85%A5%E8%A1%A8/index.html">
+<meta property="og:site_name" content="tgrddf55&#39;s Blog">
+<meta property="og:description" content="对exe文件脱壳之后的重建输入表以及函数的转发作者：tgrddf55 一.问题引入在b站视频（BV1LL4y1n7Af）crackme 第十个视频ceycey中，笔者按照视频所演示的进行脱壳，却发现dump之后的exe文件无法打开，在师傅的指引下，知晓了这可能是本机的windows系统版本太高的问题，并且这个问题可以通过重建输入表来解决，于是笔者开始了重建输入表的学习。  本篇内容包括PE文件中的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/11.jpg">
+<meta property="article:published_time" content="2023-02-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-10T16:00:00.000Z">
+<meta property="article:author" content="tgrddf55">
+<meta property="article:tag" content="reverse">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/11.jpg"><link rel="shortcut icon" href="/imgs/tgrddf55.jpg"><link rel="canonical" href="http://example.com/2023/02/28/2023-02-28-%E9%87%8D%E5%BB%BA%E8%BE%93%E5%85%A5%E8%A1%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '对exe文件脱壳之后的重建输入表以及函数的转发',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-11 00:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/imgs/tgrddf55.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/image/11.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="tgrddf55's Blog"><span class="site-name">tgrddf55's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">对exe文件脱壳之后的重建输入表以及函数的转发</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-27T16:00:00.000Z" title="发表于 2023-02-28 00:00:00">2023-02-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-10T16:00:00.000Z" title="更新于 2024-09-11 00:00:00">2024-09-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/REVERSE/">REVERSE</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="对exe文件脱壳之后的重建输入表以及函数的转发"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="对exe文件脱壳之后的重建输入表以及函数的转发"><a href="#对exe文件脱壳之后的重建输入表以及函数的转发" class="headerlink" title="对exe文件脱壳之后的重建输入表以及函数的转发"></a>对exe文件脱壳之后的重建输入表以及函数的转发</h1><p><em>作者：tgrddf55</em></p>
+<h2 id="一-问题引入"><a href="#一-问题引入" class="headerlink" title="一.问题引入"></a>一.问题引入</h2><p>在b站视频（BV1LL4y1n7Af）crackme 第十个视频ceycey中，笔者按照视频所演示的进行脱壳，却发现dump之后的exe文件无法打开，在师傅的指引下，知晓了这可能是本机的windows系统版本太高的问题，并且这个问题可以通过<strong>重建输入表</strong>来解决，于是笔者开始了重建输入表的学习。</p>
+<hr>
+<p>本篇内容包括PE文件中的输入表结构、壳的功能及简单原理、何为dump，<br>如何重建输入表、函数的转发。</p>
+<p>如果读者遇到了在64位系统中脱32位程序的upx壳失败的问题，并且上述知识没有任何储备的话，建议从头认真阅读本文章。</p>
+<p>本文章是笔者边学边写，因此可能存在部分问题，望读者指正。</p>
+<hr>
+<h2 id="二-为什么要重建输入表"><a href="#二-为什么要重建输入表" class="headerlink" title="二.为什么要重建输入表"></a>二.为什么要重建输入表</h2><p><del>由于这个问题涉及到较多的前置知识，本篇文章致力于让没有学习这些知识的同学也能理解内容，但笔者能力有限，如果想对该篇内容进行更深刻的理解的话，建议学习PE文件结构</del></p>
+<h3 id="（1）输入表结构"><a href="#（1）输入表结构" class="headerlink" title="（1）输入表结构"></a>（1）输入表结构</h3><p>exe文件即为PE文件中的一种，这个文件中存有许多结构，类似于一座房子，有窗户，有门……其中输入表就是其中的一种结构。</p>
+<p>输入表的作用就是引用外部的函数，比如C++中我们可以引用<code>sqrt（）</code>函数用来求根号，而<code>sqrt()</code>函数就是存放在<code>cmath</code>头文件中。输入表就是存放程序所引用的外部函数的信息的。外界函数肯定是好多个函数存放在某一个文件中的，这个文件的后缀是.dll，因此输入表中的信息是包含好多个.dll和它所存放的函数的。</p>
+<p>接下来我们来看一张图，这张图展示了PE文件中的输入表结构。</p>
+<p><img src="/../imgs/202303102111890.png" alt="输入表"></p>
+<p>图片左边的那一列是输入表最外层的结构，，我们应该注意的是，一个dll文件就对应一个这样的结构，因此文件中实际存在的是很多个这样的结构。我们重点关注其中第1、4、5个元素，我们将其简称为<strong>OFT</strong> 、 <strong>name</strong>  、<strong>FT</strong></p>
+<p>其中<strong>name</strong>这个元素指向的.dll文件的名字，也就是说，这一个结构所包含的信息是关于这一个.dll文件的。这张图中就是“Kernel32.dll”。</p>
+<p>文件未载入内存时，也就是文件在磁盘中存放时,<strong>OFT</strong>和<strong>FT</strong>分别指向了一组关于dll文件包含函数的信息，通过这些信息就可以找到程序所要引用的函数，这两组信息我们分别称为 <em><strong>INT</strong></em> 和 <em><strong>IAT</strong></em>，如图所示。</p>
+<p>这两张表的数据会因为程序载入内存而改变。接下来我们介绍一下在程序载入内存时这两张表的信息是如何改变的。</p>
+<p>在此之前我们需要知道的是，程序载入内存时，因为程序需要调用外部来自dll的函数，所以dll文件就会在程序分配的地址中展开，这时候dll文件中的函数就会存在一个地址，程序里面只要引用这个地址就可以调用这个函数了。这类似于我们自己在程序中写了一个函数，函数就会在程序中存在一个地址，调用这个函数的时候只需要引用这个地址就可以，dll文件只是帮我们把函数提前写好，dll在程序被分配的地址中展开就相当于dll文件在程序中写入这个函数。这告诉我们我们要想快速的引用这个函数，只需要引用这个地址就可以了。</p>
+<p>当程序被载入内存时，windows会首先读取 <strong>OFT</strong>的信息，然后找到 <strong>INT</strong>，通过<strong>INT</strong>找到函数的名字，然后通过这个名字索引到这个函数，这时已经得到了这个函数的地址，接下来将这个真实地址填入<strong>IAT</strong>表中对应的位置，比如函数1的真实地址是 7715A8,那么<strong>IAT</strong>表中第一个元素就会被填入7715A8，接下来，程序要调用函数1的时候只需要引用在<strong>IAT</strong>表中第一个元素的值，也就是7715A8就可以了。</p>
+<p><img src="/../imgs/202303102111949.png" alt="输入表"></p>
+<p>也就是说，<strong>INT</strong>表只有在最开始被windows使用来找到函数的具体位置，之后<strong>INT</strong>就没有作用了，只需要用<strong>IAT</strong>就可以了，但是需要注意的是，<strong>INT</strong>的信息仍会被保留，而不会被清除。</p>
+<h3 id="（2）壳的功能及原理"><a href="#（2）壳的功能及原理" class="headerlink" title="（2）壳的功能及原理"></a>（2）壳的功能及原理</h3><p> 壳主要分为两大类：压缩壳和加密壳。由于笔者遇到的upx壳为压缩壳，在此主要讲解压缩壳。</p>
+<p>我们首先假设一个exe程序的步骤是这样的 1-&gt;2-&gt;3-&gt;4-&gt;5</p>
+<p>加了壳之后，其实是将其中的某些代码压缩了，同时在程序头加上壳的代码用来解压缩。那么加上壳之后的程序就是这样：</p>
+<p>11(壳的代码)-&gt; 1.2 -&gt; 2.2 -&gt; 3.2 -&gt; 4-&gt; 5 </p>
+<p>程序加载到内存时，首先11（壳的代码）运行 ，运行之后 1.2就解压缩成了1，2.2就解压缩成了2, 3.2就解压缩成了3，11（壳的代码）运行完后，这三个部分也就解压缩完成，这时，程序也就运行到了1，之后就和没有加壳的程序一样了。</p>
+<p> 上面的知识告诉我们，要想脱壳，我们只需要运行完11（壳的代码）找到1的入口点就可以了，我们将1的入口点称之为OEP（程序的原始入口点 Original Enter Point）。</p>
+<p> 这其实也告诉我们，要想找到OEP，一定需要运行完壳的代码，否则，即使你事先知道OEP的地址，但没有运行壳代码，直接跳转到这一个地址也是失败的。（静态分析）</p>
+<h3 id="（3）dump"><a href="#（3）dump" class="headerlink" title="（3）dump"></a>（3）dump</h3><p>接下来，我们再了解一个概念 <em><strong>dump</strong></em> 。我们通过前面的知识可以知道，一个程序在磁盘中和程序在内存中的情况是不同的，至少它的<strong>IAT</strong>信息是不同的，那么我们为了研究程序在内存中的情况，就很自然地想到希望一个东西能够将内存中程序的情况复刻出来，将其保存在磁盘中。<em><strong>dump</strong></em>就是指的这个过程，通过 <em><strong>dump</strong></em>我们可以得到程序在内存中的信息。在脱壳过程中，当我们已经找到了OEP（程序的原始入口点 Original Enter Point），我们就希望能够将这个状态保存下来，这时也需  <em><strong>dump</strong></em> 这个过程，OD中就可以实现这个功能。</p>
+<p>一个正常的没有加过壳的程序，将其在OD中 <em><strong>dump</strong></em> 出来，通过上面的知识我们可以推断出，这个被 <em><strong>dump</strong></em> 出来的程序应该仍然可以运行。虽然它的 <strong>IAT</strong>表中被更改了，但是windows仍然可以通过<strong>INT</strong>得到函数名进而使得程序正常运行。</p>
+<p>但是加过壳的程序，它的<strong>INT</strong>和<strong>IAT</strong>都可能存在问题，因此如果我们在OEP处直接 <em><strong>dump</strong></em>，这样出来的程序可能是无法运行的。</p>
+<p>在此笔者做了大量的实验，验证了 <strong>INT</strong> 和<strong>IAT</strong>不同情况下程序的运行情况。<br>未加壳的程序，当它OFT错误（全为零），也即通过<strong>INT</strong>这条路径索引到函数名失败,<strong>IAT</strong>正确（指向函数名，而不是函数的真实地址）时，函数能够正常运行。笔者推测可能是由于windows通过<strong>IAT</strong>表来找到函数名，进而找到函数的真正地址，再填充<strong>IAT</strong>表相应位置，从而使得函数正常运行。(见下3图)</p>
+<p>(应当注意的是，这里的RVA并非在文件中的偏移地址，但是可以通过一定的公式进行换算，Stud_PE中存在换算器)</p>
+<p>(在此解释一下下面三张图的含义，第一张图即为通过工具找到的kernel32.dll的输入表信息，可以看到OFT为零，也就是说这里无法通过OFT找到<strong>INT</strong>，但是 FT 所指向的<strong>IAT</strong>信息是正确的)</p>
+<p>(第二张图通过FT中的309C换算成E6C，再找到E6C这个位置，这个位置显示的是函数名的地址)</p>
+<p>(第三张图也即通过上图找的地址索引到函数名 GetMoudleHandleA )<br><img src="/../imgs/202303102111498.webp" alt="yiat"></p>
+<p><img src="/../imgs/202303102111131.webp" alt="yiat"></p>
+<p><img src="/../imgs/202303102111909.webp" alt="yiat"></p>
+<p>(可以将上面三图比照最上面第一张图输入表结构来看，进而更好地理解输入表结构)</p>
+<p>未加壳的程序，当它的OFT错误（全为零），<strong>IAT</strong>不正确（存放函数的真正地址）时，函数不能正常运行。我都有函数的正确地址了，为什么函数还不能正常运行呢？因为windows是通过函数名来找到函数的真正地址，这一个步骤是windows能够正确识别函数的关键步骤，然而当我们的<strong>INT</strong>错误，windows仍然会进行上一段的步骤，然而正确的<strong>IAT</strong>存放的是函数名的地址，windows会通过<strong>IAT</strong>中的地址索引到函数名，现在windows根据<strong>IAT</strong>索引是找不到函数名的（因为<strong>IAT</strong>存放的是在内存中函数的真正地址，而不是函数名的地址）</p>
+<p>（见下2图）</p>
+<p>(第一二张图所展示的步骤和正常程序所演示的步骤相同，但注意到这里的IAT表所填入的是函数的真实地址7636DAF3（小端序存储，也即逆序存储）)</p>
+<p>(此二图同样可以比照输入表在内存中的结构来看)</p>
+<p><img src="/../imgs/202303102111261.webp" alt="yiat"></p>
+<p><img src="/../imgs/202303102111618.webp" alt="yiat"></p>
+<p>接下来我们来看一下upx壳会对程序的输入表进行何种的改变。</p>
+<p>(第一张图为没有加壳的程序输入表)<br>(第二章图为加壳之后的程序输入表)</p>
+<p><img src="/../imgs/202303102111683.webp" alt="yiat"></p>
+<p><img src="/../imgs/202303102111849.webp" alt="yiat"></p>
+<p>可以看到加壳之后，程序的函数数量不仅发生了改变( 10-&gt;5 ),输入表中的 <strong>OFT</strong>信息也改变了，这样 <em><strong>dump</strong></em> 出来的程序中，<strong>INT</strong> &#x2F;<strong>IAT</strong>也存在问题，函数数量也存在问题，如果不重建输入表的话(在OD中没有勾选重建输入表)，程序一定是无法运行的。（之后会对这个问题进行分析）</p>
+<h2 id="二、重建输入表的原理"><a href="#二、重建输入表的原理" class="headerlink" title="二、重建输入表的原理"></a>二、重建输入表的原理</h2><p>加壳之后，会发现这时候输入表和原来的程序输入表大不相同，甚至函数数量也不一样，按照道理来说函数数量减少了那么程序就肯定运行不起来了，为什么还能运行？</p>
+<p>其实这时候的输入表不是真正的输入表，而应该是壳自己的输入表，通过以上学习我们可以知道，程序在内存中只需要有所有函数的真正地址就可以了，壳的代码在运行完后，肯定会将函数的真正地址展现出来，并不影响程序的运行。但是程序在OEP处 <em><strong>dump</strong></em> 出来（如果没有重建输入表）后输入表仍然是壳的输入表，并不是真正的 <strong>IAT</strong>(存放函数真正地址的表)，因此这样的程序在不重建输入表是无法运行的。</p>
+<p>但是 找到程序的OEP时，所有函数的真正地址应该都已经出现了，存放函数地址的是 <strong>IAT</strong>，我们可以通过找到这个 <strong>IAT</strong>，进而还原真个输入表的结构。通过这个原理，我们已经可以手动修复输入表了，也就是利用十六进制编辑器将函数的名字、<strong>OFT</strong>、<strong>FT</strong>重新写入就可以了。</p>
+<p>接下来我们讲解一下如何利用OD找到真正的 <strong>IAT</strong>（存放函数真正地址）。</p>
+<p>OD中在找到OEP后，以下的代码就是原程序了，找到任意一个调用API函数的语句，然后找到在哪个地址存放了函数的地址就可以了。这些地址就是<strong>IAT</strong>。（如图）</p>
+<p><img src="/../imgs/202303102112092.webp" alt="yiat"></p>
+<p>（表中标出来的77开头的和75开头的地址就是函数的真正地址）（注意小端序存储）</p>
+<h2 id="三、如何重建输入表"><a href="#三、如何重建输入表" class="headerlink" title="三、如何重建输入表"></a>三、如何重建输入表</h2><p>其实OD中就存在重建输入表这个选项，但是OD不太智能，有些时候重建输入表之后仍然有问题。</p>
+<p>其实对于upx壳来说，OD重建输入表已经完全可以了，但是笔者在64位系统中重建的32位程序，这样导致重建的输入表仍然出现问题，因此如果是upx等简单壳，不想学习较为复杂的重建输入表步骤的话，可以选择将其拖入win7 32位虚拟机中运行，笔者也对这一步进行了操作。</p>
+<p><del>接下来我们开始讲解一下，使用importREC重建输入表。</del></p>
+<p><del>(其实完全可以使用16进制的编辑器手动重建输入表，但是笔者懒)</del></p>
+<p>由于笔者在群中已经发布过视频，建议跟着视频来进行学习使用ImportREC重建输入表。</p>
+<p>视频为本文件同目录下的“ceycey 脱壳 重建输入表.mkv”</p>
+<p>这里应该注意的是，笔者在视频中的演示存在一定的问题，在填写 <strong>IAT</strong> 地址信息的时候，笔者并没有学习到这一方面的知识，实际填写的是错误的，但是importREC可能比较智能，总之笔者误打误撞地完成了。在此笔者重新录制一个视频。读者可以选择只看这一个视频。</p>
+<p>视频为本文件同目录下的“importrec.mkv”</p>
+<h2 id="四、函数的转发"><a href="#四、函数的转发" class="headerlink" title="四、函数的转发"></a>四、函数的转发</h2><p>接下来将解释一下笔者遇到的根本问题。</p>
+<p>在64位程序中脱32位程序，使用OD重建输入表，此时OD会将某些函数识别错误。（见图）</p>
+<p><img src="/../imgs/202303102112644.webp" alt="yiat"></p>
+<p>图中标出来的函数是来自ntdll.dll，但是这个库却是user32.dll，那么这个程序肯定就无法运行了。</p>
+<p>我们看一下正确的情况是怎么样的。</p>
+<p><img src="/../imgs/202303102112235.webp" alt="yiat"></p>
+<p>正确的函数是DefWindowProcA,错误的函数却是NtdllDefWindowProcA。<br>我们很容易就可以想到这两个函数肯定存在某种关系。<br>实际上确实这两个函数存在关系，这里涉及到函数的转发。</p>
+<p>dll文件中存在很多函数，而dll文件之间也可以引用，或者说是转发。<br>在32位系统的user32.dll中，DefWindowProcA函数是不存在转发的，也就是正常的。但是64位的user32.dll有一些不同。我们知道dll文件中存储的是真正的函数，可是，现在user32.dll（64 位)中是没有DefWindowProcA真正函数的,只有DefWindowProcA这个名字，它将这个真正函数给了ntdll.dll,在ntdll.dll中这个函数叫做NtdllDefWindowProcA，也就是我们上两张图看到的。<br>其中这个NtdllDefWindowProcA就叫做DefWindowProcA的转发函数。</p>
+<p>接下来我们讲解一下dll文件导出表的结构。</p>
+<p><img src="/../imgs/202303102112704.png" alt="yiat"></p>
+<p>有三个表，一个存储函数的名字，一个存储函数的地址，一个索引表用来连接这两个表。dll文件在我们的程序中展开之后，windows通过程序的导入表找到所要使用函数的名字，然后拿着这个名字在展开后的dll中找，没错，就是在导出名称表中找。找到之后根据对应的索引表再找到函数的地址，然后再利用这个地址填充程序的<strong>IAT</strong>。这样就将我们之前学到的导入表的知识关联起来了。</p>
+<p>但是现在user32.dll(64)中DefWindowProcA对应的导出地址表中存放的不是这个函数的地址(因为在user32.dll不存在这个函数了，也就没有这个地址了，只是还残留着这个函数的名字），存放的其实是其导出函数的名字的地址，我们通过这个地址找到的其实是NtdllDefWindowProcA这个字符串。<br><img src="/../imgs/202303102112294.webp" alt="yiat"></p>
+<p><img src="/../imgs/202303102112674.webp" alt="yiat"></p>
+<p>(从图一找到图二时同样存在文件偏移地址和RVA的转换，在此只是演示一下上一段所讲解的内容)</p>
+<p>windows在程序中载入user32.dll后，知道其导出函数有转发函数了，然后就会展开ntdll.dll，然后将NtdllDefWindowProcA的地址给填入到user32.dll中的DefWindowProcA函数的地址，也就是原本存放NtdllDefWindowProcA字符串地址的位置。这样user32.dll中的导出地址表就都是函数的真正地址了，尽管有些函数是通过导出函数来找到这个地址的。最后windows就会将user32.dll的导出地址表挨着填入<strong>IAT</strong>。<br>(见下图)<br><img src="/../imgs/202303102112365.png" alt="1"></p>
+<p>这样其实就已经解释了笔者遇到的问题了。</p>
+<p>在64位系统中，OD（即使是importREC)是根据<strong>IAT</strong>表中函数的真正地址来找到这个函数名，进而重建整个导入表的，现在DefWindowProcA的真正地址填入的却是NtdllDefWindowProcA的地址，当然重建之后还是NtdllDefWindowProcA这个函数。</p>
+<p>而32位系统中DefWindowProcA并没有转发，user32.dll中存在着这个函数，自然使用OD重建输入表是正确的。</p>
+<p><del>以上关于函数转发的内容主要来源于下面这个链接</del></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/revercc/p/16703647.html">https://www.cnblogs.com/revercc/p/16703647.html</a></p>
+</blockquote>
+<p>学到这里，我们就会发现，在第三部分中笔者进行的重建输入表是存在问题的。我们只是将无效的函数剪掉，也就是把原本应该存在的函数给扔掉了，刚好这个程序好像没有调用到这个函数，所以我们剪掉这个函数之后程序仍然能够运行。但是如果这个函数比较重要的话，笔者重建输入表之后就仍然不会正常运行。正确的做法就是在importREC中，不是剪掉这个函数，而是更改函数名，将ntdll前缀去掉，这样才是正确的做法(笔者的importREC似乎没有这个功能，我看网络上有这个功能的版本是v2.0.5)。</p>
+<p>本篇内容到这里就结束了，感谢您的阅读！</p>
+<p>如存在问题，恳请指正！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">tgrddf55</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/02/28/2023-02-28-%E9%87%8D%E5%BB%BA%E8%BE%93%E5%85%A5%E8%A1%A8/">http://example.com/2023/02/28/2023-02-28-重建输入表/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">tgrddf55's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/reverse/">reverse</a></div><div class="post_share"><div class="social-share" data-image="/image/11.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2023/03/06/2023-03-06-%E8%8A%B1%E6%8C%87%E4%BB%A4/" title="花指令"><img class="cover" src="/image/40.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">花指令</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/03/06/2023-03-06-IDA/" title="IDA个人使用报告"><img class="cover" src="/image/7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-06</div><div class="title">IDA个人使用报告</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/imgs/tgrddf55.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">tgrddf55</div><div class="author-info__description">几时归去，做个闲人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/tgrddf55" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/455700704" target="_blank" title="bilibili"><i class="fab fa-bilibili" style="color: #00aeff;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%B9exe%E6%96%87%E4%BB%B6%E8%84%B1%E5%A3%B3%E4%B9%8B%E5%90%8E%E7%9A%84%E9%87%8D%E5%BB%BA%E8%BE%93%E5%85%A5%E8%A1%A8%E4%BB%A5%E5%8F%8A%E5%87%BD%E6%95%B0%E7%9A%84%E8%BD%AC%E5%8F%91"><span class="toc-text">对exe文件脱壳之后的重建输入表以及函数的转发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E9%97%AE%E9%A2%98%E5%BC%95%E5%85%A5"><span class="toc-text">一.问题引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E9%87%8D%E5%BB%BA%E8%BE%93%E5%85%A5%E8%A1%A8"><span class="toc-text">二.为什么要重建输入表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E8%BE%93%E5%85%A5%E8%A1%A8%E7%BB%93%E6%9E%84"><span class="toc-text">（1）输入表结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E5%A3%B3%E7%9A%84%E5%8A%9F%E8%83%BD%E5%8F%8A%E5%8E%9F%E7%90%86"><span class="toc-text">（2）壳的功能及原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%883%EF%BC%89dump"><span class="toc-text">（3）dump</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%87%8D%E5%BB%BA%E8%BE%93%E5%85%A5%E8%A1%A8%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-text">二、重建输入表的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%A6%82%E4%BD%95%E9%87%8D%E5%BB%BA%E8%BE%93%E5%85%A5%E8%A1%A8"><span class="toc-text">三、如何重建输入表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%87%BD%E6%95%B0%E7%9A%84%E8%BD%AC%E5%8F%91"><span class="toc-text">四、函数的转发</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks"><img src="/image/32.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="asis_2016_b00ks"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks">asis_2016_b00ks</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn"><img src="/image/15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="领航杯2024决赛pwn"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn">领航杯2024决赛pwn</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用"><img src="/image/51.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="glibc2.27-2.35 tcache堆利用"/></a><div class="content"><a class="title" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用">glibc2.27-2.35 tcache堆利用</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017"><img src="/image/48.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="babyheap_0ctf_2017"/></a><div class="content"><a class="title" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017">babyheap_0ctf_2017</a><time datetime="2024-10-20T16:00:00.000Z" title="发表于 2024-10-21 00:00:00">2024-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit"><img src="/image/54.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="house_of_spirit"/></a><div class="content"><a class="title" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit">house_of_spirit</a><time datetime="2024-10-17T16:00:00.000Z" title="发表于 2024-10-18 00:00:00">2024-10-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/image/11.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By tgrddf55</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

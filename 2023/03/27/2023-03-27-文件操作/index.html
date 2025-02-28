@@ -1,0 +1,202 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>文件操作 | tgrddf55's Blog</title><meta name="author" content="tgrddf55"><meta name="copyright" content="tgrddf55"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言前段时间遇到了一些对文件操作的题目，因此这里介绍一下常见的文件操作API函数（不是大全，只是本人遇到的） CreatFileAHANDLE CreateFileA(  LPCSTR                lpFileName,  DWORD                 dwDesiredAccess,  DWORD                 dwShareMode,  LPS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文件操作">
+<meta property="og:url" content="http://example.com/2023/03/27/2023-03-27-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="tgrddf55&#39;s Blog">
+<meta property="og:description" content="前言前段时间遇到了一些对文件操作的题目，因此这里介绍一下常见的文件操作API函数（不是大全，只是本人遇到的） CreatFileAHANDLE CreateFileA(  LPCSTR                lpFileName,  DWORD                 dwDesiredAccess,  DWORD                 dwShareMode,  LPS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/19.jpg">
+<meta property="article:published_time" content="2023-03-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-10T16:00:00.000Z">
+<meta property="article:author" content="tgrddf55">
+<meta property="article:tag" content="file">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/19.jpg"><link rel="shortcut icon" href="/imgs/tgrddf55.jpg"><link rel="canonical" href="http://example.com/2023/03/27/2023-03-27-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '文件操作',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-11 00:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/imgs/tgrddf55.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/image/19.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="tgrddf55's Blog"><span class="site-name">tgrddf55's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">文件操作</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-26T16:00:00.000Z" title="发表于 2023-03-27 00:00:00">2023-03-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-10T16:00:00.000Z" title="更新于 2024-09-11 00:00:00">2024-09-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/REVERSE/">REVERSE</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="文件操作"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前段时间遇到了一些对文件操作的题目，因此这里介绍一下常见的文件操作API函数（不是大全，只是本人遇到的）</p>
+<h1 id="CreatFileA"><a href="#CreatFileA" class="headerlink" title="CreatFileA"></a>CreatFileA</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">HANDLE <span class="title">CreateFileA</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">  LPCSTR                lpFileName,</span></span></span><br><span class="line"><span class="params"><span class="function">  DWORD                 dwDesiredAccess,</span></span></span><br><span class="line"><span class="params"><span class="function">  DWORD                 dwShareMode,</span></span></span><br><span class="line"><span class="params"><span class="function">  LPSECURITY_ATTRIBUTES lpSecurityAttributes,</span></span></span><br><span class="line"><span class="params"><span class="function">  DWORD                 dwCreationDisposition,</span></span></span><br><span class="line"><span class="params"><span class="function">  DWORD                 dwFlagsAndAttributes,</span></span></span><br><span class="line"><span class="params"><span class="function">  HANDLE                hTemplateFile</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">各个参数的作用是：</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">- lpFileName：指定要创建或打开的文件名或设备名。</span></span><br><span class="line"><span class="comment">- dwDesiredAccess：指定对文件或设备的访问权限。</span></span><br><span class="line"><span class="comment">- dwShareMode：指定其他进程可以与文件或设备共享的方式。</span></span><br><span class="line"><span class="comment">- lpSecurityAttributes：指定一个安全描述符，控制对文件或设备的访问。</span></span><br><span class="line"><span class="comment">- dwCreationDisposition：指定如何创建或打开文件或设备。</span></span><br><span class="line"><span class="comment">- dwFlagsAndAttributes：指定文件或设备的属性和标志。</span></span><br><span class="line"><span class="comment">- hTemplateFile：指定一个文件句柄，用于指定要创建的文件的属性。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">CreatefileA函数的作用是创建或打开一个文件或设备，并返回一个句柄，可以使用该句柄对文件或设备进行读写等操作。*/</span></span><br></pre></td></tr></table></figure>
+
+<p>这个以一个例子来讲解这个函数</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CreateFileA</span>(<span class="string">&quot;C:\\nk.ctf&quot;</span>, <span class="number">0x80000000</span>, <span class="number">1u</span>, <span class="number">0</span>, <span class="number">3u</span>, <span class="number">0x80u</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>参数1：文件路径名，字符串类型，指定创建的文件名和路径</p>
+<p>参数2：文件访问控制标志，指定文件的访问权限和共享方式，0x80000000表示以独占方式打开文件</p>
+<p>参数3：文件创建标志，指定文件的创建方式和属性，1u表示创建一个新文件</p>
+<p>参数4：文件句柄模板，指定一个已经打开的文件句柄，0表示不使用模板句柄</p>
+<p>参数5：文件操作方式，指定文件的读写方式，3u表示以可读可写方式打开文件</p>
+<p>参数6：文件属性标志，指定文件的属性，0x80u表示将文件设置为临时文件</p>
+<p>参数7：文件的扩展属性，指定文件的扩展属性，0表示不设置扩展属性。</p>
+<p>需要注意的是，这个函数是创建或者打开一个文件，也就是说如果这个文件不存在的话才会创建这个文件，因此我们可以手动创建这个文件，然后让这个函数执行打开这个文件的命令。</p>
+<h1 id="ReadFile"><a href="#ReadFile" class="headerlink" title="ReadFile"></a>ReadFile</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function">BOOL <span class="title">ReadFile</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">  HANDLE       hFile,</span></span></span><br><span class="line"><span class="params"><span class="function">  LPVOID       lpBuffer,</span></span></span><br><span class="line"><span class="params"><span class="function">  DWORD        nNumberOfBytesToRead,</span></span></span><br><span class="line"><span class="params"><span class="function">  LPDWORD      lpNumberOfBytesRead,</span></span></span><br><span class="line"><span class="params"><span class="function">  LPOVERLAPPED lpOverlapped</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">其中，各个参数的意思如下：</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">- `hFile`：文件句柄，表示要读取的文件。</span></span><br><span class="line"><span class="comment">- `lpBuffer`：指向要读取数据的缓冲区。</span></span><br><span class="line"><span class="comment">- `nNumberOfBytesToRead`：要读取的字节数。</span></span><br><span class="line"><span class="comment">- `lpNumberOfBytesRead`：指向保存实际读取字节数的变量。</span></span><br><span class="line"><span class="comment">- `lpOverlapped`：指向一个`OVERLAPPED`结构体，用于异步操作。如果不使用异步操作，可以设置为`NULL`。*/</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ReadFile</span>(hObject, &amp;Buffer, <span class="number">1u</span>, &amp;NumberOfBytesRead, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>hObject：文件句柄，指向要读取的文件。</p>
+<p>Buffer：缓冲区，用于存储从文件中读取的数据。</p>
+<p>1u：要读取的字节数。</p>
+<p>NumberOfBytesRead：实际读取的字节数，由函数返回。</p>
+<p>0：用于控制文件指针的偏移量，0表示从文件的当前位置开始读取。</p>
+<h1 id="CloseHandle"><a href="#CloseHandle" class="headerlink" title="CloseHandle"></a>CloseHandle</h1><p>CloseHandle()函数的作用是关闭一个打开的句柄对象。它会释放句柄对象所占用的系统资源，因此在使用完句柄对象后应该调用该函数来关闭它。如果不关闭句柄对象，可能会导致资源泄漏或其他问题。该函数通常用于Windows编程中的文件、进程、线程等对象的操作。</p>
+<h1 id="LiadLibraryW"><a href="#LiadLibraryW" class="headerlink" title="LiadLibraryW"></a>LiadLibraryW</h1><p>这个函数的作用是加载一个动态链接库(DLL)文件，并返回一个句柄(hModule)。这个句柄可以用于后续的函数调用，比如GetProcAddress()函数来获取动态链接库中的函数地址。LoadLibraryW()函数的参数是一个Unicode字符串，表示要加载的DLL文件的文件名。如果加载成功，返回的句柄非空；如果加载失败，返回NULL。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">hModule=<span class="built_in">LoadLibraryW</span>(<span class="string">L&quot;Dll2.dll&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="GetProcAddress"><a href="#GetProcAddress" class="headerlink" title="GetProcAddress"></a>GetProcAddress</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function">FARPROC <span class="title">GetProcAddress</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">  HMODULE hModule,  <span class="comment">// DLL模块句柄</span></span></span></span><br><span class="line"><span class="params"><span class="function">  LPCSTR lpProcName <span class="comment">// 函数名或函数的序号</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数说明：</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">- `hModule`：DLL模块句柄，表示要获取函数地址的DLL模块。可以通过`LoadLibrary`等函数获取。</span></span><br><span class="line"><span class="comment">- `lpProcName`：函数名或函数的序号，表示要获取的函数的名称或序号。如果是函数名，需要以字符串形式传入；如果是函数序号，需要以整数形式传入。在Windows中，函数名是以ASCII字符组成的字符串，函数序号是一个整数，是函数在DLL导出表中的位置。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">返回值：</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">- 如果函数调用成功，返回值为函数的地址；</span></span><br><span class="line"><span class="comment">- 如果函数调用失败，返回值为NULL。*/</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">v10=<span class="built_in">GetProcAddress</span>(hModule, <span class="string">&quot;flag&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="FreeLibrary"><a href="#FreeLibrary" class="headerlink" title="FreeLibrary"></a>FreeLibrary</h1><p>FreeLibrary函数的作用是释放一个动态链接库（DLL）的句柄，使该DLL从当前进程中卸载。在调用LoadLibrary函数加载一个DLL后，必须调用FreeLibrary函数释放该DLL的句柄，否则该DLL将一直驻留在内存中，直到进程结束。</p>
+<h1 id="fopen"><a href="#fopen" class="headerlink" title="fopen"></a>fopen</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">FILE *<span class="title">fopen</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *Filename, <span class="type">const</span> <span class="type">char</span> *Mode)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">参数说明：</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">- Filename：要打开的文件名，可以是绝对路径或相对路径。</span></span><br><span class="line"><span class="comment">- Mode：打开文件的模式，可以是以下几种：</span></span><br><span class="line"><span class="comment">  - &quot;r&quot;：只读模式，打开文件用于读取。</span></span><br><span class="line"><span class="comment">  - &quot;w&quot;：只写模式，如果文件存在则将其截断为零长度，如果文件不存在则创建该文件。</span></span><br><span class="line"><span class="comment">  - &quot;a&quot;：追加模式，打开文件用于写入，如果文件存在则在末尾追加数据，如果文件不存在则创建该文件。</span></span><br><span class="line"><span class="comment">  - &quot;rb&quot;：二进制只读模式，打开文件用于读取二进制数据。</span></span><br><span class="line"><span class="comment">  - &quot;wb&quot;：二进制只写模式，如果文件存在则将其截断为零长度，如果文件不存在则创建该文件，用于写入二进制数据。</span></span><br><span class="line"><span class="comment">  - &quot;ab&quot;：二进制追加模式，打开文件用于写入二进制数据，如果文件存在则在末尾追加数据，如果文件不存在则创建该文件。</span></span><br><span class="line"><span class="comment">    返回值：</span></span><br><span class="line"><span class="comment">- 如果成功打开文件，则返回指向该文件的指针，否则返回NULL。*/</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">fopen</span>(Filename, <span class="string">&quot;rb&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="fgetc"><a href="#fgetc" class="headerlink" title="fgetc"></a>fgetc</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">fgetc</span><span class="params">(FILE *stream)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">函数作用：从指定的文件流中读取一个字符，并将该字符作为无符号字符转换为int类型返回。如果到达文件结尾或发生读取错误，则返回EOF。*/</span></span><br></pre></td></tr></table></figure>
+
+<p><code>fgetc(File)</code></p>
+<h1 id="fputc"><a href="#fputc" class="headerlink" title="fputc"></a>fputc</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">fputc</span><span class="params">(<span class="type">int</span> c, FILE *stream)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">其中，参数c是要写入的字符，参数stream是输出流，即要写入的文件指针。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">函数返回值为写入成功的字符，如果出现错误则返回EOF。*/</span></span><br></pre></td></tr></table></figure>
+
+<p><code>fputc(*(v11 + 4 * i) ^ v8, v6)</code></p>
+<h1 id="fclose"><a href="#fclose" class="headerlink" title="fclose"></a>fclose</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">fclose</span>(File)函数的作用是关闭文件。如果文件已打开，则该函数将文件缓冲区中的任何剩余数据刷新到磁盘，并释放该文件占用的任何系统资源。关闭文件后，不能再读取或写入该文件，除非再次打开。该函数的语法如下：</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">fclose</span><span class="params">(FILE *File)</span></span>;</span><br><span class="line"></span><br><span class="line">其中，File是指向FILE类型结构体的指针，表示要关闭的文件。该函数返回<span class="number">0</span>表示成功，返回EOF表示失败。</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">tgrddf55</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/03/27/2023-03-27-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">http://example.com/2023/03/27/2023-03-27-文件操作/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">tgrddf55's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/file/">file</a></div><div class="post_share"><div class="social-share" data-image="/image/19.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/27/2023-03-27-SMC%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/" title="SMC的一些知识"><img class="cover" src="/image/11.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SMC的一些知识</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/20/2023-03-20-%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98%E4%B8%AD%E7%9A%84dfs%20(%E8%BF%9B%E9%98%B6)/" title="迷宫问题中的dfs(进阶)"><img class="cover" src="/image/32.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">迷宫问题中的dfs(进阶)</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/imgs/tgrddf55.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">tgrddf55</div><div class="author-info__description">几时归去，做个闲人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/tgrddf55" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/455700704" target="_blank" title="bilibili"><i class="fab fa-bilibili" style="color: #00aeff;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CreatFileA"><span class="toc-text">CreatFileA</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ReadFile"><span class="toc-text">ReadFile</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CloseHandle"><span class="toc-text">CloseHandle</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LiadLibraryW"><span class="toc-text">LiadLibraryW</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GetProcAddress"><span class="toc-text">GetProcAddress</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FreeLibrary"><span class="toc-text">FreeLibrary</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fopen"><span class="toc-text">fopen</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fgetc"><span class="toc-text">fgetc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fputc"><span class="toc-text">fputc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fclose"><span class="toc-text">fclose</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks"><img src="/image/32.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="asis_2016_b00ks"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks">asis_2016_b00ks</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn"><img src="/image/15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="领航杯2024决赛pwn"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn">领航杯2024决赛pwn</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用"><img src="/image/51.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="glibc2.27-2.35 tcache堆利用"/></a><div class="content"><a class="title" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用">glibc2.27-2.35 tcache堆利用</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017"><img src="/image/48.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="babyheap_0ctf_2017"/></a><div class="content"><a class="title" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017">babyheap_0ctf_2017</a><time datetime="2024-10-20T16:00:00.000Z" title="发表于 2024-10-21 00:00:00">2024-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit"><img src="/image/54.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="house_of_spirit"/></a><div class="content"><a class="title" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit">house_of_spirit</a><time datetime="2024-10-17T16:00:00.000Z" title="发表于 2024-10-18 00:00:00">2024-10-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/image/19.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By tgrddf55</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

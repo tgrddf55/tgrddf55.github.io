@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ponce学习 | tgrddf55's Blog</title><meta name="author" content="tgrddf55"><meta name="copyright" content="tgrddf55"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言最近看n1ctf题解的时候看到了一个IDA插件，用来符号执行的，简单的理解就是一个更简单的angr，比angr使用要方便一点，叫做ponce。  https:&#x2F;&#x2F;github.com&#x2F;illera88&#x2F;Ponce  安装直接把Ponce编译好的版本全部粘贴到IDA的插件文件夹中即可。 使用Ponce是一个符号执行的工具，按照我的理解，符号执行就是将输入看作一个变量（符号），然后通过动态执行能够">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ponce学习">
+<meta property="og:url" content="http://example.com/2023/10/30/2023-10-30-ponce%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="tgrddf55&#39;s Blog">
+<meta property="og:description" content="前言最近看n1ctf题解的时候看到了一个IDA插件，用来符号执行的，简单的理解就是一个更简单的angr，比angr使用要方便一点，叫做ponce。  https:&#x2F;&#x2F;github.com&#x2F;illera88&#x2F;Ponce  安装直接把Ponce编译好的版本全部粘贴到IDA的插件文件夹中即可。 使用Ponce是一个符号执行的工具，按照我的理解，符号执行就是将输入看作一个变量（符号），然后通过动态执行能够">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/48.jpg">
+<meta property="article:published_time" content="2023-10-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-10T16:00:00.000Z">
+<meta property="article:author" content="tgrddf55">
+<meta property="article:tag" content="ponce">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/48.jpg"><link rel="shortcut icon" href="/imgs/tgrddf55.jpg"><link rel="canonical" href="http://example.com/2023/10/30/2023-10-30-ponce%E5%AD%A6%E4%B9%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ponce学习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-11 00:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/imgs/tgrddf55.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/image/48.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="tgrddf55's Blog"><span class="site-name">tgrddf55's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ponce学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-29T16:00:00.000Z" title="发表于 2023-10-30 00:00:00">2023-10-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-10T16:00:00.000Z" title="更新于 2024-09-11 00:00:00">2024-09-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/REVERSE/">REVERSE</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">810</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="ponce学习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近看n1ctf题解的时候看到了一个IDA插件，用来符号执行的，简单的理解就是一个更简单的angr，比angr使用要方便一点，叫做ponce。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/illera88/Ponce">https://github.com/illera88/Ponce</a></p>
+</blockquote>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>直接把Ponce编译好的版本全部粘贴到IDA的插件文件夹中即可。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>Ponce是一个符号执行的工具，按照我的理解，符号执行就是将输入看作一个变量（符号），然后通过动态执行能够将这个变量所满足的所有约束条件找到，这些约束条件可能是某些比较复杂的加密比较，但总之肯定有某种约束条件，将所有的约束条件收集好后工具就可以自动算出这个变量应该是什么。</p>
+<p>因此我们需要首先找到两个东西或者三个东西，一个是输入存放的位置，一个是最终正确错误的分支点。我们先将输入转变为符号，执行后到达正确错误的分支点时也就已经收集好了所有的约束条件，然后得出结果即可。</p>
+<p>这里以一个例子来讲解一下Ponce的简单使用。</p>
+<p>测试文件的源代码：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="type">char</span> input[<span class="number">50</span>];</span><br><span class="line">	<span class="type">char</span> enc[]=&#123;<span class="number">0x56</span>,<span class="number">0x5c</span>,<span class="number">0x51</span>,<span class="number">0x57</span>,<span class="number">0x4b</span>,<span class="number">0x47</span>,<span class="number">0x58</span>,<span class="number">0x51</span>,<span class="number">0x44</span>,<span class="number">0x6f</span>,<span class="number">0x59</span>,<span class="number">0x43</span>,<span class="number">0x6f</span>,<span class="number">0x49</span>,<span class="number">0x5f</span>,<span class="number">0x45</span>,<span class="number">0x42</span>,<span class="number">0x6f</span>,<span class="number">0x56</span>,<span class="number">0x5c</span>,<span class="number">0x51</span>,<span class="number">0x57</span>,<span class="number">0xf</span>,<span class="number">0x4d</span>&#125;;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,input);</span><br><span class="line">	<span class="type">int</span> len=<span class="built_in">strlen</span>(input);</span><br><span class="line">	<span class="keyword">if</span>(len!=<span class="number">24</span>)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;no!&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;</span><br><span class="line">		input[i]^=<span class="number">0x30</span>;</span><br><span class="line">		<span class="keyword">if</span>(input[i]!=enc[i])&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;no!&quot;</span>);</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;yes!&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;<span class="comment">// flag&#123;what_is_your_flag?&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>首先在IDA里找到scanf的位置</p>
+<p><img src="/../imgs/202310301917405.png" alt="image-20231030191651688"></p>
+<p>在这里scanf后下个断点，其中[rbp+Str]就是存放输入的位置</p>
+<p>然后找到判断的位置</p>
+<p><img src="/../imgs/202310301918484.png" alt="image-20231030191824400"></p>
+<p>在jz指令这里下个断点</p>
+<p>然后开始动态调试，我们输入随便的字符串“123456789012345678901234”</p>
+<p>然后程序断在了输入的位置</p>
+<p><img src="/../imgs/202310301919299.png" alt="image-20231030191956323"></p>
+<p>点击[rbp+Str]找到输入</p>
+<p><img src="/../imgs/202310301921789.png" alt="image-20231030192113981"></p>
+<p>选择符号化内存 Symbolize memory </p>
+<p><img src="/../imgs/202310301922040.png" alt="image-20231030192217066"></p>
+<p>如图即为已经符号化成功</p>
+<p>然后按下F9程序运行，断在jz指令</p>
+<p>这个指令就是判断某个字符是否正确的指令</p>
+<p>点击这个指令，右键选择SMT solver -&gt; Negate and Inject to reach 0x……</p>
+<p><img src="/../imgs/202310301928232.png" alt="image-20231030192531092"></p>
+<p>这个选项的意思时否定当前分支，并注入代码使得程序走入0x4016a6这个分支，同时在下方的输出框里工具也会将此时已经确定的 符号内存 告诉我们</p>
+<p><img src="/../imgs/202310301932692.png" alt="image-20231030193236558"></p>
+<p>此时再按下F8，程序会走入正确的分支，这也就是注入代码然后走入正确分支，不需要手动修改EIP了。</p>
+<p>接着继续按下F9，程序会循环，重新到这个jz指令，重复刚才的操作即可，如此即可得到所有的答案。</p>
+<p><img src="/../imgs/202310301941828.png" alt="image-20231030194125681"></p>
+<p>但是有时候会有bug发生，重新来一遍就好了。</p>
+<p>在选择 Negate and Inject to reach 0x……时也可以选择Solve Fomula 但是此时需要自己手动修改EIP进入正确的分支。</p>
+<h1 id="录制视频链接"><a href="#录制视频链接" class="headerlink" title="录制视频链接"></a>录制视频链接</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV13N411s7T2/?spm_id_from=333.337.search-card.all.click&vd_source=a85daf8eb54f32264d9f6976d087fe98">https://www.bilibili.com/video/BV13N411s7T2/?spm_id_from=333.337.search-card.all.click&amp;vd_source=a85daf8eb54f32264d9f6976d087fe98</a></p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">tgrddf55</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/10/30/2023-10-30-ponce%E5%AD%A6%E4%B9%A0/">http://example.com/2023/10/30/2023-10-30-ponce学习/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">tgrddf55's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ponce/">ponce</a></div><div class="post_share"><div class="social-share" data-image="/image/48.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/03/13/2024-3-13-%E6%8A%A5%E9%94%99%E8%AE%B0%E5%BD%95_%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%88%E5%B8%8C%E6%9C%9B%EF%BC%89/" title="一些东西"><img class="cover" src="/image/17.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">一些东西</div></div></a></div><div class="next-post pull-right"><a href="/2023/09/21/2023-09-21-idapython%E4%B8%AD%E7%9A%84%E5%9B%BE%E8%AE%BAbfs/" title="idapython中的图论bfs"><img class="cover" src="/image/39.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">idapython中的图论bfs</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/imgs/tgrddf55.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">tgrddf55</div><div class="author-info__description">几时归去，做个闲人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/tgrddf55" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/455700704" target="_blank" title="bilibili"><i class="fab fa-bilibili" style="color: #00aeff;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-text">使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BD%95%E5%88%B6%E8%A7%86%E9%A2%91%E9%93%BE%E6%8E%A5"><span class="toc-text">录制视频链接</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks"><img src="/image/32.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="asis_2016_b00ks"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks">asis_2016_b00ks</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn"><img src="/image/15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="领航杯2024决赛pwn"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn">领航杯2024决赛pwn</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用"><img src="/image/51.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="glibc2.27-2.35 tcache堆利用"/></a><div class="content"><a class="title" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用">glibc2.27-2.35 tcache堆利用</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017"><img src="/image/48.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="babyheap_0ctf_2017"/></a><div class="content"><a class="title" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017">babyheap_0ctf_2017</a><time datetime="2024-10-20T16:00:00.000Z" title="发表于 2024-10-21 00:00:00">2024-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit"><img src="/image/54.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="house_of_spirit"/></a><div class="content"><a class="title" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit">house_of_spirit</a><time datetime="2024-10-17T16:00:00.000Z" title="发表于 2024-10-18 00:00:00">2024-10-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/image/48.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By tgrddf55</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

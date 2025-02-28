@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>学习pwn | tgrddf55's Blog</title><meta name="author" content="tgrddf55"><meta name="copyright" content="tgrddf55"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言目前在0基础学习pwn 记录一下最近学习过程中遇到的一些知识点 pwntools的运用细节发送 payload p.send(payload)  发送 payload p.sendline(payload)  发送 payload，并进行换行（末尾\n） p.sendafter(some_string, payload)  接收到 some_string 后, 发送你的 payload p.s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习pwn">
+<meta property="og:url" content="http://example.com/2023/07/12/2023-07-12-pwn%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BB%86%E8%8A%82%E7%82%B9/index.html">
+<meta property="og:site_name" content="tgrddf55&#39;s Blog">
+<meta property="og:description" content="前言目前在0基础学习pwn 记录一下最近学习过程中遇到的一些知识点 pwntools的运用细节发送 payload p.send(payload)  发送 payload p.sendline(payload)  发送 payload，并进行换行（末尾\n） p.sendafter(some_string, payload)  接收到 some_string 后, 发送你的 payload p.s">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/34.jpg">
+<meta property="article:published_time" content="2023-07-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-10T16:00:00.000Z">
+<meta property="article:author" content="tgrddf55">
+<meta property="article:tag" content="pwn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/34.jpg"><link rel="shortcut icon" href="/imgs/tgrddf55.jpg"><link rel="canonical" href="http://example.com/2023/07/12/2023-07-12-pwn%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BB%86%E8%8A%82%E7%82%B9/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '学习pwn',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-11 00:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/imgs/tgrddf55.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/image/34.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="tgrddf55's Blog"><span class="site-name">tgrddf55's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">学习pwn</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-11T16:00:00.000Z" title="发表于 2023-07-12 00:00:00">2023-07-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-10T16:00:00.000Z" title="更新于 2024-09-11 00:00:00">2024-09-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/PWN/">PWN</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="学习pwn"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>目前在0基础学习pwn</p>
+<p>记录一下最近学习过程中遇到的一些知识点</p>
+<h1 id="pwntools的运用细节"><a href="#pwntools的运用细节" class="headerlink" title="pwntools的运用细节"></a>pwntools的运用细节</h1><p>发送 payload</p>
+<p><code>p.send(payload)</code>  发送 payload</p>
+<p><code>p.sendline(payload)</code>  发送 payload，并进行换行（末尾\n）</p>
+<p><code>p.sendafter(some_string, payload)</code>  接收到 some_string 后, 发送你的 payload</p>
+<p><code>p.sendlineafter(some_string, payload)</code>  接收到 some_string 后, 发送你的 payload，加个换行</p>
+<p>接收返回内容</p>
+<p>p.recv() 一直接收输出</p>
+<p><code>p.recvn(N)</code>  接受 N(数字) 字符</p>
+<p><code>p.recvline()</code> 接收一行输出</p>
+<p><code>p.recvlines(N)</code>  接收 N(数字) 行输出</p>
+<p><code>p.recvuntil(some_string)</code>  接收到 some_string 为止</p>
+<p><code>p.interactive()</code>   直接进行交互，相当于回到shell的模式，一般在取得shell之后使用</p>
+<p>生成 shellcode</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">asm(shellcraft.sh())</span><br></pre></td></tr></table></figure>
+
+<p>上面是抄的别人博客的东西</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/hxfqg9/bin/yxegb6">https://www.yuque.com/hxfqg9/bin/yxegb6</a></p>
+</blockquote>
+<p>接下来是自己学到的</p>
+<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>p.recv(n)等价于p.recv(n)</p>
+<p>一般与p.recvuntil()连用</p>
+<p>假设程序会这样输出：</p>
+<p>“aaaaaaaab\x12\x34\x56\x7f”</p>
+<p>我们想接收到后面4位，将其当做地址，那么可以这样写脚本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">p.recvuntil(<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">imp_addr=u32(p.recv(<span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+
+<p>此时imp_addr的值就是0x7f563412</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 2024.4.11 update</span></span><br><span class="line">r=p.recv(<span class="number">6</span>)</span><br><span class="line">puts_addr=u64(r.ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p>另一种情况程序自身打印了一个地址</p>
+<p>“0x7f563412”</p>
+<p>这时候这个地址是以字符串的形式输出的，我们这时候想要接收数据可以这样</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">p.recvuntil(<span class="string">&#x27;\n&#x27;</span>)  <span class="comment">####这里里面填入的字符为0x前面的字符</span></span><br><span class="line">imp_addr=<span class="built_in">eval</span>(p.recv(<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+
+<p>也可以这样</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">imp_addr=<span class="built_in">eval</span>(p.recvuntil(<span class="string">&#x27;\n&#x27;</span>)[-<span class="number">11</span>:-<span class="number">1</span>])<span class="comment">###recvuntil里面填入的字符是想要字符的后面的个字符</span></span><br></pre></td></tr></table></figure>
+
+<p>程序为多行输出的时候，也可以这样</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">p.recvuntil(<span class="string">&#x27;gift!\n&#x27;</span>)</span><br><span class="line">addr=<span class="built_in">eval</span>(p.recvuntil(<span class="string">&#x27;\n&#x27;</span>)[-<span class="number">11</span>:-<span class="number">1</span>])</span><br><span class="line"><span class="comment">###程序输出是这样的：</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">OHHH!,give you a gift!</span></span><br><span class="line"><span class="string">0x565af770</span></span><br><span class="line"><span class="string">Input:</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>其中第-1个字符是’\n’，由于python左闭右开的特点，最后写-1刚好能滤掉\n</p>
+<p>eval函数可以参考一下python基础语法</p>
+<h2 id="3"><a href="#3" class="headerlink" title="3"></a>3</h2><p>发送完payload之后想用gdb调试一下，</p>
+<p>可以在这样</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">p=process(<span class="string">&#x27;./pwn&#x27;</span>)</span><br><span class="line">······</span><br><span class="line">gdb.attach(p,<span class="string">&#x27;b *0x080485E5&#x27;</span>)</span><br><span class="line">p.sendline(payload2)</span><br></pre></td></tr></table></figure>
+
+<p>在发送payload前使用gdb.attach语句</p>
+<p>第二个参数相当于在gdb里面下断点，一般是输入函数的下一个地址</p>
+<p>进入gdb调试后，先按一下c，然后就发现断在了之前写的那个地址</p>
+<p>这时候可以用stack 50指令查看一下当前程序里栈的情况</p>
+<p>有时上述情况会失败，这里介绍另一种调试方法</p>
+<p>在py文件的输入前使用pause函数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pause()</span><br></pre></td></tr></table></figure>
+
+<p>等程序运行到pause后重新开一个终端输入 </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gdb attach 4575(pid)</span><br></pre></td></tr></table></figure>
+
+<p>进入gdb 后在输入后下断点，之后按下c，让程序继续执行</p>
+<p>之后转到之前的终端，回车使得脚本继续运行，此时即可以实现调试功能</p>
+<h2 id="4"><a href="#4" class="headerlink" title="4"></a>4</h2><p>使用cyclic计算偏移量</p>
+<p>步骤：</p>
+<p>1.首先在终端用cyclic 200指令生成一个序列，这个序列是cyclic特定的序列</p>
+<p>然后复制这个序列</p>
+<p>2.用gdb pwn指令调试本地程序，一直运行到输入阶段，将刚刚生成的序列复制输入进去，然后回车</p>
+<p>3.继续c运行程序，最后程序肯定会断在一个地方，ret 某个错误地址，记住这个地址的低4个字节</p>
+<p>4.然后重新开一个终端，输入指令cyclic -l 0xxxxxxxxx  （这个就写刚刚的低四个字节）,cyclic会返回一个数，这个数就是偏移量，从输入的地址一直到ret的地址</p>
+<p><img src="/../imgs/202307112251057.png" alt="image-20230711225109422"></p>
+<h2 id="5"><a href="#5" class="headerlink" title="5"></a>5</h2><p>在线查找libc库</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://libc.rip/">https://libc.rip/</a></p>
+</blockquote>
+<p>注意地址写后三位</p>
+<p>LibcSeacher联机查找，不需要下辣么多版本的库</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python3 install LibcSearcher</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/MDong1344/article/details/120277351">https://blog.csdn.net/MDong1344/article/details/120277351</a></p>
+</blockquote>
+<h2 id="6"><a href="#6" class="headerlink" title="6"></a>6</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">*<span class="comment"># 给定字节串表示的地址* </span></span><br><span class="line">address_bytes =<span class="string">b&#x27;P\x0e\xc8\x9d\x12\x7f\n&#x27;</span> </span><br><span class="line"><span class="comment"># 将字节串转换为整数（假设是小端序）* </span></span><br><span class="line">address_int = <span class="built_in">int</span>.from_bytes(address_bytes, byteorder=<span class="string">&#x27;little&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="ret2syscall"><a href="#ret2syscall" class="headerlink" title="ret2syscall"></a>ret2syscall</h1><p>64位ret2syscall</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">rax=<span class="number">0x3b</span></span><br><span class="line">rdi=bin_sh_addr</span><br><span class="line">rdx=<span class="number">0</span></span><br><span class="line">rsi=<span class="number">0</span></span><br><span class="line">syscall</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-11更新"><a href="#4-11更新" class="headerlink" title="4.11更新"></a>4.11更新</h1><h2 id="1-1"><a href="#1-1" class="headerlink" title="1"></a>1</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">context(log.level=<span class="string">&#x27;debug&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>别说了，问就是真神</p>
+<h2 id="2-1"><a href="#2-1" class="headerlink" title="2"></a>2</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">puts_plt=elf.sym[<span class="string">&#x27;puts&#x27;</span>]</span><br><span class="line">puts_got=elf.got[<span class="string">&#x27;puts&#x27;</span>]</span><br><span class="line">atoi_got=elf.got[<span class="string">&#x27;atoi&#x27;</span>]</span><br><span class="line">free_got=elf.got[<span class="string">&#x27;free&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">tgrddf55</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/07/12/2023-07-12-pwn%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BB%86%E8%8A%82%E7%82%B9/">http://example.com/2023/07/12/2023-07-12-pwn学习过程中的细节点/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">tgrddf55's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/pwn/">pwn</a></div><div class="post_share"><div class="social-share" data-image="/image/34.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/07/13/2023-07-13-nssctf%E7%9A%84%E4%B8%80%E9%81%93pwn%E9%A2%98%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2+ret2txt/" title="格式化字符串+ret2txt"><img class="cover" src="/image/23.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">格式化字符串+ret2txt</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/23/2023-04-23-%E5%AF%86%E7%A0%81%E5%AD%A6%E7%9A%84%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80-%E4%B8%80%E7%82%B9%E8%87%AA%E5%B7%B1%E7%9A%84%E6%80%9D%E8%80%83/" title="密码学数论基础-自己的思考"><img class="cover" src="/image/48.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">密码学数论基础-自己的思考</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/07/13/2023-07-13-nssctf%E7%9A%84%E4%B8%80%E9%81%93pwn%E9%A2%98%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2+ret2txt/" title="格式化字符串+ret2txt"><img class="cover" src="/image/23.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-13</div><div class="title">格式化字符串+ret2txt</div></div></a></div><div><a href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit"><img class="cover" src="/image/54.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-18</div><div class="title">house_of_spirit</div></div></a></div><div><a href="/2024/10/18/2024-10-18-%E5%A0%86%E7%9F%A5%E8%AF%86/" title="堆1"><img class="cover" src="/image/17.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-18</div><div class="title">堆1</div></div></a></div><div><a href="/2024/10/16/2024-10.16-pwn%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BB%86%E8%8A%82%E7%82%B92/" title="学习pwn2"><img class="cover" src="/image/16.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-16</div><div class="title">学习pwn2</div></div></a></div><div><a href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017"><img class="cover" src="/image/48.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-21</div><div class="title">babyheap_0ctf_2017</div></div></a></div><div><a href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks"><img class="cover" src="/image/32.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-15</div><div class="title">asis_2016_b00ks</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/imgs/tgrddf55.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">tgrddf55</div><div class="author-info__description">几时归去，做个闲人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/tgrddf55" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/455700704" target="_blank" title="bilibili"><i class="fab fa-bilibili" style="color: #00aeff;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pwntools%E7%9A%84%E8%BF%90%E7%94%A8%E7%BB%86%E8%8A%82"><span class="toc-text">pwntools的运用细节</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1"><span class="toc-text">1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2"><span class="toc-text">2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3"><span class="toc-text">3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4"><span class="toc-text">4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5"><span class="toc-text">5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6"><span class="toc-text">6</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ret2syscall"><span class="toc-text">ret2syscall</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-11%E6%9B%B4%E6%96%B0"><span class="toc-text">4.11更新</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1"><span class="toc-text">1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1"><span class="toc-text">2</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks"><img src="/image/32.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="asis_2016_b00ks"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks">asis_2016_b00ks</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn"><img src="/image/15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="领航杯2024决赛pwn"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn">领航杯2024决赛pwn</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用"><img src="/image/51.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="glibc2.27-2.35 tcache堆利用"/></a><div class="content"><a class="title" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用">glibc2.27-2.35 tcache堆利用</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017"><img src="/image/48.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="babyheap_0ctf_2017"/></a><div class="content"><a class="title" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017">babyheap_0ctf_2017</a><time datetime="2024-10-20T16:00:00.000Z" title="发表于 2024-10-21 00:00:00">2024-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit"><img src="/image/54.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="house_of_spirit"/></a><div class="content"><a class="title" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit">house_of_spirit</a><time datetime="2024-10-17T16:00:00.000Z" title="发表于 2024-10-18 00:00:00">2024-10-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/image/34.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By tgrddf55</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>linux下双进程保护问题及应对方案 | tgrddf55's Blog</title><meta name="author" content="tgrddf55"><meta name="copyright" content="tgrddf55"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="什么是双进程保护问题本题目来自于NSSCTF平台的题目。 ID: 1442  [NSSRound#6 Team]void(V2) 首先，我们应该了解一下Linux下C++的多进程编写。 fork函数本部分以一个实例来讲解一下fork函数产生的双进程。 __int64 sub_CDA()&#123;  __int64 result; &#x2F;&#x2F; rax  int i; &#x2F;&#x2F; [rsp+Ch] [rbp-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux下双进程保护问题及应对方案">
+<meta property="og:url" content="http://example.com/2023/03/10/2023-03-10-linux%E4%B8%8B%E5%8F%8C%E8%BF%9B%E7%A8%8B%E4%BF%9D%E6%8A%A4%E9%97%AE%E9%A2%98%E5%8F%8A%E5%BA%94%E5%AF%B9%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="tgrddf55&#39;s Blog">
+<meta property="og:description" content="什么是双进程保护问题本题目来自于NSSCTF平台的题目。 ID: 1442  [NSSRound#6 Team]void(V2) 首先，我们应该了解一下Linux下C++的多进程编写。 fork函数本部分以一个实例来讲解一下fork函数产生的双进程。 __int64 sub_CDA()&#123;  __int64 result; &#x2F;&#x2F; rax  int i; &#x2F;&#x2F; [rsp+Ch] [rbp-1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/25.jpg">
+<meta property="article:published_time" content="2023-03-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-10T16:00:00.000Z">
+<meta property="article:author" content="tgrddf55">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="双进程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/25.jpg"><link rel="shortcut icon" href="/imgs/tgrddf55.jpg"><link rel="canonical" href="http://example.com/2023/03/10/2023-03-10-linux%E4%B8%8B%E5%8F%8C%E8%BF%9B%E7%A8%8B%E4%BF%9D%E6%8A%A4%E9%97%AE%E9%A2%98%E5%8F%8A%E5%BA%94%E5%AF%B9%E6%96%B9%E6%A1%88/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'linux下双进程保护问题及应对方案',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-11 00:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/imgs/tgrddf55.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/image/25.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="tgrddf55's Blog"><span class="site-name">tgrddf55's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">linux下双进程保护问题及应对方案</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-09T16:00:00.000Z" title="发表于 2023-03-10 00:00:00">2023-03-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-10T16:00:00.000Z" title="更新于 2024-09-11 00:00:00">2024-09-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/REVERSE/">REVERSE</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="linux下双进程保护问题及应对方案"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="什么是双进程保护问题"><a href="#什么是双进程保护问题" class="headerlink" title="什么是双进程保护问题"></a>什么是双进程保护问题</h1><p>本题目来自于NSSCTF平台的题目。</p>
+<p>ID: 1442  [NSSRound#6 Team]void(V2)</p>
+<p>首先，我们应该了解一下Linux下C++的多进程编写。</p>
+<h2 id="fork函数"><a href="#fork函数" class="headerlink" title="fork函数"></a><em><strong>fork函数</strong></em></h2><p>本部分以一个实例来讲解一下fork函数产生的双进程。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">__int64 <span class="title">sub_CDA</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  __int64 result; <span class="comment">// rax</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+Ch] [rbp-14h]</span></span><br><span class="line">  <span class="type">__pid_t</span> v2; <span class="comment">// [rsp+10h] [rbp-10h]</span></span><br><span class="line"></span><br><span class="line">  v2 = fork();                                  <span class="comment">// 产生双进程</span></span><br><span class="line">  <span class="keyword">if</span> ( v2 &lt; <span class="number">0</span> )                                 <span class="comment">// 产生双进程失败</span></span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">if</span> ( v2 )                                     <span class="comment">// fork函数的返回值决定了这个进程是父进程还是子进程</span></span><br><span class="line">  &#123;                                             <span class="comment">// 父进程的返回值是子进程的pid，因此一定大于0</span></span><br><span class="line">    result = <span class="built_in">sub_AD7</span>(v2);                      <span class="comment">//父进程执行sub_AD7函数</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>                                          <span class="comment">// 子进程的fork返回值是0</span></span><br><span class="line">  &#123;</span><br><span class="line">    result = <span class="built_in">ptrace</span>(PTRACE_TRACEME, <span class="number">0LL</span>, <span class="number">0LL</span>, <span class="number">0LL</span>);<span class="comment">// 请求被调试</span></span><br><span class="line">    <span class="keyword">if</span> ( result == <span class="number">-1</span> )                         <span class="comment">// 如果子进程被其他调试器调试，那么ptrace向父进程请求调试失败，返回-1</span></span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">0</span>; ++i )                    <span class="comment">// 如果ptrace向父进程请求成功，返回值是0</span></span><br><span class="line">    result = ((sub_95A + i + <span class="number">7</span>))(<span class="number">11LL</span>, <span class="number">13LL</span>, <span class="number">17LL</span>);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所有的关键部分都已经在上面这部分代码写上了注释。</p>
+<h2 id="双进程问题特征"><a href="#双进程问题特征" class="headerlink" title="双进程问题特征"></a><em><strong>双进程问题特征</strong></em></h2><ol>
+<li>父进程被当做一个调试器，父进程可能会对子进程进程改变</li>
+<li>子进程是关键部分，关键代码会在子进程中出现</li>
+<li>使用ptrace用来连接两个进程</li>
+</ol>
+<h2 id="ptrace函数介绍"><a href="#ptrace函数介绍" class="headerlink" title="ptrace函数介绍"></a><em><strong>ptrace函数介绍</strong></em></h2><p><em><strong>ptrace</strong></em>函数是调试器(比如gdb)所使用的函数，这也是为什么说父进程被当做一个调试器的原因。</p>
+<p>子进程中会在开始调用一个ptrace函数：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">result = <span class="built_in">ptrace</span>(PTRACE_TRACEME, <span class="number">0LL</span>, <span class="number">0LL</span>, <span class="number">0LL</span>);</span><br></pre></td></tr></table></figure>
+<p>这个函数是请求父进程对本进程进行调试，调用成功返回0，失败返回-1。</p>
+<p>这个函数也是一种反调试技术，但是我们可以很容易对其进行nop。</p>
+<p>我们再来看一下父进程调用的函数。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 父进程调用的函数</span></span><br><span class="line"><span class="function"><span class="type">unsigned</span> __int64 __fastcall <span class="title">sub_5622CB200AD7</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> son_pid)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> stat_loc; <span class="comment">// [rsp+1Ch] [rbp-F4h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v3; <span class="comment">// [rsp+20h] [rbp-F0h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v4; <span class="comment">// [rsp+28h] [rbp-E8h]</span></span><br><span class="line">  pt_regs reg; <span class="comment">// [rsp+30h] [rbp-E0h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v6; <span class="comment">// [rsp+108h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v6 = __readfsqword(<span class="number">0x28u</span>);</span><br><span class="line">  <span class="built_in">waitpid</span>(son_pid, &amp;stat_loc, <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">if</span> ( stat_loc != <span class="number">127</span> )</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">  <span class="built_in">ptrace</span>(PTRACE_SETOPTIONS, son_pid, <span class="number">0LL</span>, <span class="number">0x100000LL</span>);<span class="comment">// 防止子进程进程脱离父进程控制</span></span><br><span class="line">  <span class="keyword">while</span> ( stat_loc == <span class="number">127</span> )                     <span class="comment">// 127表示子进程正在被跟踪</span></span><br><span class="line">                                                <span class="comment">// </span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">ptrace</span>(PTRACE_SYSCALL, son_pid, <span class="number">0LL</span>, <span class="number">0LL</span>);  <span class="comment">// 当子进程执行一个系统调用时，它会被暂停</span></span><br><span class="line">    <span class="built_in">waitpid</span>(son_pid, &amp;stat_loc, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">ptrace</span>(PTRACE_GETREGS, son_pid, <span class="number">0LL</span>, &amp;reg); <span class="comment">// 获取所有寄存器的值，放入V5</span></span><br><span class="line">    <span class="keyword">if</span> ( reg.orig_rax == <span class="number">67890</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      reg.orig_rax = <span class="number">1LL</span>;</span><br><span class="line">      v3 = reg.rdx;</span><br><span class="line">      reg.rdx = reg.rsi;</span><br><span class="line">      reg.rsi = reg.rdi;</span><br><span class="line">      reg.rdi = v3;</span><br><span class="line">      <span class="built_in">ptrace</span>(PTRACE_SETREGS, son_pid, <span class="number">0LL</span>, &amp;reg);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( reg.orig_rax == <span class="number">12345</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      reg.orig_rax = <span class="number">0LL</span>;</span><br><span class="line">      v4 = reg.rdx;</span><br><span class="line">      reg.rdx = reg.rsi;</span><br><span class="line">      reg.rsi = reg.rdi;</span><br><span class="line">      reg.rdi = v4;</span><br><span class="line">      <span class="built_in">ptrace</span>(PTRACE_SETREGS, son_pid, <span class="number">0LL</span>, &amp;reg);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">ptrace</span>(PTRACE_SYSCALL, son_pid, <span class="number">0LL</span>, <span class="number">0LL</span>);</span><br><span class="line">    <span class="built_in">waitpid</span>(son_pid, &amp;stat_loc, <span class="number">0</span>);</span><br><span class="line">  &#125;                                             <span class="comment">// while循环块</span></span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28u</span>) ^ v6;             <span class="comment">// 返回0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中父进程会大量使用prace函数，以此实现对子进程的调试，这一个部分我已经将ptrace函数分别实现的功能做了注释。可以看到，父进程的功能是这样的,在子进程的系统调用函数后下一个断点，然后再这一个断点处获取子进程的寄存器信息，如果寄存器中的orig_rax是12345或者67890，就对子进程的寄存器进行修改。</p>
+<p>然而，orig_rax保存的是系统调号，这个编号不可能出现12345或者67890，因此这个函数对子进程不会进行任何操作。</p>
+<h1 id="应对方案"><a href="#应对方案" class="headerlink" title="应对方案"></a>应对方案</h1><h2 id="修改子进程"><a href="#修改子进程" class="headerlink" title="修改子进程"></a><em><strong>修改子进程</strong></em></h2><p>首先分析父进程的流程，了解清楚父进程对子进程进行了何种修改，之后编写IDApython脚本对子进程进行修改。</p>
+<h2 id="动态调试"><a href="#动态调试" class="headerlink" title="动态调试"></a><em><strong>动态调试</strong></em></h2><p>在动态调试中，我们需要进行以下几个操作。</p>
+<ol>
+<li>nop掉fork函数，让程序只走子进程的部分</li>
+<li>nop掉子进程的ptrace函数或者修改ptrace函数的返回值,使其不要执行退出函数</li>
+<li>在适当位置下断点（比如子进程结束时），查看子进程进行的操作等</li>
+</ol>
+<p>之后的操作就是正常的逆向流程了</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">tgrddf55</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/03/10/2023-03-10-linux%E4%B8%8B%E5%8F%8C%E8%BF%9B%E7%A8%8B%E4%BF%9D%E6%8A%A4%E9%97%AE%E9%A2%98%E5%8F%8A%E5%BA%94%E5%AF%B9%E6%96%B9%E6%A1%88/">http://example.com/2023/03/10/2023-03-10-linux下双进程保护问题及应对方案/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">tgrddf55's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a><a class="post-meta__tags" href="/tags/%E5%8F%8C%E8%BF%9B%E7%A8%8B/">双进程</a></div><div class="post_share"><div class="social-share" data-image="/image/25.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/10/2023-03-10-ELF%E6%96%87%E4%BB%B6%E7%9A%84%E9%83%A8%E5%88%86%E7%9F%A5%E8%AF%86/" title="ELF文件的部分知识"><img class="cover" src="/image/43.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">ELF文件的部分知识</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/06/2023-03-06-IDA/" title="IDA个人使用报告"><img class="cover" src="/image/7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">IDA个人使用报告</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/imgs/tgrddf55.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">tgrddf55</div><div class="author-info__description">几时归去，做个闲人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/tgrddf55" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/455700704" target="_blank" title="bilibili"><i class="fab fa-bilibili" style="color: #00aeff;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8C%E8%BF%9B%E7%A8%8B%E4%BF%9D%E6%8A%A4%E9%97%AE%E9%A2%98"><span class="toc-text">什么是双进程保护问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#fork%E5%87%BD%E6%95%B0"><span class="toc-text">fork函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8C%E8%BF%9B%E7%A8%8B%E9%97%AE%E9%A2%98%E7%89%B9%E5%BE%81"><span class="toc-text">双进程问题特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ptrace%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D"><span class="toc-text">ptrace函数介绍</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E5%AF%B9%E6%96%B9%E6%A1%88"><span class="toc-text">应对方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%AD%90%E8%BF%9B%E7%A8%8B"><span class="toc-text">修改子进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="toc-text">动态调试</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks"><img src="/image/32.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="asis_2016_b00ks"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks">asis_2016_b00ks</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn"><img src="/image/15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="领航杯2024决赛pwn"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn">领航杯2024决赛pwn</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用"><img src="/image/51.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="glibc2.27-2.35 tcache堆利用"/></a><div class="content"><a class="title" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用">glibc2.27-2.35 tcache堆利用</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017"><img src="/image/48.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="babyheap_0ctf_2017"/></a><div class="content"><a class="title" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017">babyheap_0ctf_2017</a><time datetime="2024-10-20T16:00:00.000Z" title="发表于 2024-10-21 00:00:00">2024-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit"><img src="/image/54.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="house_of_spirit"/></a><div class="content"><a class="title" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit">house_of_spirit</a><time datetime="2024-10-17T16:00:00.000Z" title="发表于 2024-10-18 00:00:00">2024-10-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/image/25.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By tgrddf55</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

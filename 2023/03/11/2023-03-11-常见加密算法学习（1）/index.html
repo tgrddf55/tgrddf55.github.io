@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>常见加密算法学习 | tgrddf55's Blog</title><meta name="author" content="tgrddf55"><meta name="copyright" content="tgrddf55"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="AES 特征：分组密码、对称加密，算法复杂、密钥长度有多种可能，最常见的是128bits，也就是16个字节。 b站视频学习AES加密过程：  https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1i341187fK&#x2F;?spm_id_from&#x3D;333.337.search-card.all.click&amp;vd_source&#x3D;a85daf8eb54f32264d9f6976d087">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见加密算法学习">
+<meta property="og:url" content="http://example.com/2023/03/11/2023-03-11-%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/index.html">
+<meta property="og:site_name" content="tgrddf55&#39;s Blog">
+<meta property="og:description" content="AES 特征：分组密码、对称加密，算法复杂、密钥长度有多种可能，最常见的是128bits，也就是16个字节。 b站视频学习AES加密过程：  https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1i341187fK&#x2F;?spm_id_from&#x3D;333.337.search-card.all.click&amp;vd_source&#x3D;a85daf8eb54f32264d9f6976d087">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/49.jpg">
+<meta property="article:published_time" content="2023-03-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-10T16:00:00.000Z">
+<meta property="article:author" content="tgrddf55">
+<meta property="article:tag" content="encrypt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/49.jpg"><link rel="shortcut icon" href="/imgs/tgrddf55.jpg"><link rel="canonical" href="http://example.com/2023/03/11/2023-03-11-%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '常见加密算法学习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-11 00:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/imgs/tgrddf55.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/image/49.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="tgrddf55's Blog"><span class="site-name">tgrddf55's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">常见加密算法学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-10T16:00:00.000Z" title="发表于 2023-03-11 00:00:00">2023-03-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-10T16:00:00.000Z" title="更新于 2024-09-11 00:00:00">2024-09-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/REVERSE/">REVERSE</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="常见加密算法学习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h1><p><img src="/../imgs/202303111645239.png" alt="130035028553414"></p>
+<p>特征：分组密码、对称加密，算法复杂、密钥长度有多种可能，最常见的是128bits，也就是16个字节。</p>
+<p>b站视频学习AES加密过程：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1i341187fK/?spm_id_from=333.337.search-card.all.click&vd_source=a85daf8eb54f32264d9f6976d087fe98">https://www.bilibili.com/video/BV1i341187fK/?spm_id_from=333.337.search-card.all.click&amp;vd_source=a85daf8eb54f32264d9f6976d087fe98</a></p>
+</blockquote>
+<p>AES加解密代码实现学习：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://ppppz.net/2022/01/31/AES-P-Z/">https://ppppz.net/2022/01/31/AES-P-Z/</a></p>
+</blockquote>
+<p>（PZ大佬的博客链接）</p>
+<p>本人最开始是想自己写的，后来实在不想debug了，于是就抄下了大佬的代码。</p>
+<h1 id="RC4"><a href="#RC4" class="headerlink" title="RC4"></a>RC4</h1><ul>
+<li>流密码、对称加密、加解密使用同一种算法（最后使用了xor)</li>
+<li>有一个s[] 作为黑盒，利用密钥对黑盒进行变换，使得黑盒中变得复杂(初始化)</li>
+<li>最终使用黑盒中的数据对明文进行流加密，理论上来说明文密文是等长的</li>
+<li>但是由于字符变量取值是0-127,但是密文的取值却是0-255,因此存在显示字符问题</li>
+<li>在最终显示密文时可能存在几种情况，一种就是直接显示，可能会出现乱码，一种是用16进制进行输出，但这样会导致密文长度和明文长度不一致，另外一种就是使用base64编码输出，这样的话相当于进行了两次加密，但是密文一定可以很好地显示</li>
+<li>特征代码 ：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">i=(i<span class="number">+1</span>)%<span class="number">256</span>;</span><br><span class="line">j=(j+s[j])%<span class="number">256</span>;</span><br><span class="line"><span class="built_in">swap</span>(s[i],s[j]);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> s[<span class="number">256</span>];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">rc4_start</span><span class="params">( <span class="type">char</span> key[],<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> j=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">256</span>;i++)&#123;</span><br><span class="line">		s[i]=<span class="number">-1</span>-i;</span><br><span class="line">	j=(j+s[i]+key[i%n])%<span class="number">256</span>;</span><br><span class="line">		<span class="built_in">swap</span>(s[i],s[j]);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> secr[<span class="number">256</span>];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">rc4_enc</span><span class="params">( <span class="type">unsigned</span> <span class="type">char</span> pub[],<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;n;k++)&#123;</span><br><span class="line">		i=(i<span class="number">+1</span>)%<span class="number">256</span>;</span><br><span class="line">		j=(j+s[i])%<span class="number">256</span>;</span><br><span class="line">		<span class="built_in">swap</span>(s[i],s[j]);</span><br><span class="line">		<span class="type">unsigned</span> <span class="type">char</span> temp=s[(s[i]+s[j])%<span class="number">256</span>]^pub[k];</span><br><span class="line">		secr[k]=temp;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	 <span class="type">char</span> key[]=<span class="string">&quot;THISISAFAKEFLAG&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">rc4_start</span>(key,<span class="built_in">strlen</span>(key));</span><br><span class="line"></span><br><span class="line">	 <span class="type">unsigned</span> <span class="type">char</span> pub[] =</span><br><span class="line">&#123;</span><br><span class="line">  <span class="number">0x44</span>, <span class="number">0x3F</span>, <span class="number">0x53</span>, <span class="number">0x2F</span>, <span class="number">0x73</span>, <span class="number">0x86</span>, <span class="number">0x3E</span>, <span class="number">0xAE</span>, <span class="number">0x55</span>, <span class="number">0xBE</span>, </span><br><span class="line">  <span class="number">0x18</span>, <span class="number">0x5F</span>, <span class="number">0x74</span>, <span class="number">0x68</span>, <span class="number">0x33</span>, <span class="number">0x5F</span>, <span class="number">0xF2</span>, <span class="number">0x06</span>, <span class="number">0x6D</span>, <span class="number">0x62</span>&#125;; </span><br><span class="line">	<span class="built_in">rc4_enc</span>(pub,<span class="number">20</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">20</span>;i++)cout&lt;&lt;secr[i];</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面为自己手写的代码。</p>
+<p>其加解密完全使用同样的算法。</p>
+<h1 id="base64"><a href="#base64" class="headerlink" title="base64"></a>base64</h1><ul>
+<li>无密钥，加密过程中信息无丢失</li>
+<li>将三个字符的字节（24位）划分成四个字符的字节，每一个字节为6位，高两位补2个0</li>
+<li>加解密简单</li>
+<li>特征代码：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">b1=c1&gt;&gt;<span class="number">2</span>;</span><br><span class="line">b2=((c1&amp;<span class="number">0x3</span>)&lt;&lt;<span class="number">4</span>)|(c2&gt;&gt;<span class="number">4</span>);</span><br><span class="line">b3=((c2&amp;<span class="number">0xF</span>)&lt;&lt;<span class="number">2</span>)|(c3&gt;&gt;<span class="number">6</span>);</span><br><span class="line">b4=c3&amp;<span class="number">0x3F</span>;</span><br></pre></td></tr></table></figure>
+
+<p>以下为本人手写解密算法</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> <span class="comment">// base64 解密</span></span><br><span class="line"><span class="type">char</span> base64t[<span class="number">64</span>]=&#123;<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;E&#x27;</span>, <span class="string">&#x27;F&#x27;</span>, <span class="string">&#x27;G&#x27;</span>, <span class="string">&#x27;H&#x27;</span>, <span class="string">&#x27;I&#x27;</span>, <span class="string">&#x27;J&#x27;</span>, <span class="string">&#x27;K&#x27;</span>, <span class="string">&#x27;L&#x27;</span>, <span class="string">&#x27;M&#x27;</span>, <span class="string">&#x27;N&#x27;</span>, <span class="string">&#x27;O&#x27;</span>, <span class="string">&#x27;P&#x27;</span>,</span><br><span class="line">        		<span class="string">&#x27;Q&#x27;</span>, <span class="string">&#x27;R&#x27;</span>, <span class="string">&#x27;S&#x27;</span>, <span class="string">&#x27;T&#x27;</span>, <span class="string">&#x27;U&#x27;</span>, <span class="string">&#x27;V&#x27;</span>, <span class="string">&#x27;W&#x27;</span>, <span class="string">&#x27;X&#x27;</span>, <span class="string">&#x27;Y&#x27;</span>, <span class="string">&#x27;Z&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;f&#x27;</span>,</span><br><span class="line">        		<span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;i&#x27;</span>, <span class="string">&#x27;j&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;q&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;t&#x27;</span>, <span class="string">&#x27;u&#x27;</span>, <span class="string">&#x27;v&#x27;</span>,</span><br><span class="line">        		<span class="string">&#x27;w&#x27;</span>, <span class="string">&#x27;x&#x27;</span>, <span class="string">&#x27;y&#x27;</span>, <span class="string">&#x27;z&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;/&#x27;</span>&#125;;</span><br><span class="line"></span><br><span class="line">map&lt;<span class="type">char</span>,<span class="type">int</span>&gt;alter;   </span><br><span class="line"><span class="type">int</span> r=<span class="number">0</span>;     		</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">change</span><span class="params">(<span class="type">char</span>* c1,<span class="type">char</span>*c2,<span class="type">char</span> *c3,<span class="type">char</span> *c4)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> a1,a2,a3,a4,b1,b2,b3,b4;</span><br><span class="line">	b1=*c1;</span><br><span class="line">	b2=*c2;</span><br><span class="line">	b3=*c3;</span><br><span class="line">	b4=*c4;</span><br><span class="line">	b1=alter[(<span class="type">char</span>)b1];</span><br><span class="line">	b2=alter[(<span class="type">char</span>)b2];</span><br><span class="line">	b3=alter[(<span class="type">char</span>)b3];</span><br><span class="line">	b4=alter[(<span class="type">char</span>)b4];</span><br><span class="line">	<span class="comment">//cout&lt;&lt;b1&lt;&lt;&quot; &quot;&lt;&lt;b2&lt;&lt;&quot; &quot;&lt;&lt;b3&lt;&lt;&quot; &quot;&lt;&lt;b4&lt;&lt;endl;</span></span><br><span class="line">	a1=((b1&lt;&lt;<span class="number">2</span>)%<span class="number">256</span>)+(b2&gt;&gt;<span class="number">4</span>);</span><br><span class="line">	a2=((b2&lt;&lt;<span class="number">4</span>)%<span class="number">256</span>)+(b3&gt;&gt;<span class="number">2</span>);</span><br><span class="line">	a3=((b3&lt;&lt;<span class="number">6</span>)%<span class="number">256</span>)+b4;</span><br><span class="line">	<span class="comment">//cout&lt;&lt;a1&lt;&lt;&quot; &quot;&lt;&lt;a2&lt;&lt;&quot; &quot;&lt;&lt;a3&lt;&lt;endl;</span></span><br><span class="line">	*c1=a1;</span><br><span class="line">	*c2=a2;</span><br><span class="line">	*c3=a3;</span><br><span class="line">	*c4=<span class="number">0</span>; </span><br><span class="line">&#125;      </span><br><span class="line">vector&lt;<span class="type">char</span>&gt;ans;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">endw</span><span class="params">(<span class="type">char</span>* c1,<span class="type">char</span>*c2,<span class="type">char</span> *c3,<span class="type">char</span> *c4)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> a1,b1,a2,b2,a3,b3,a4,b4;</span><br><span class="line">	b1=*c1;</span><br><span class="line">	b2=*c2;</span><br><span class="line">	b3=*c3;</span><br><span class="line">	b4=*c4;</span><br><span class="line">	<span class="keyword">if</span>(b4!=<span class="string">&#x27;=&#x27;</span>)&#123;</span><br><span class="line">		b1=alter[(<span class="type">char</span>)b1];</span><br><span class="line">		b2=alter[(<span class="type">char</span>)b2];</span><br><span class="line">		b3=alter[(<span class="type">char</span>)b3];</span><br><span class="line">		b4=alter[(<span class="type">char</span>)b4];</span><br><span class="line">		<span class="comment">//cout&lt;&lt;b1&lt;&lt;&quot; &quot;&lt;&lt;b2&lt;&lt;&quot; &quot;&lt;&lt;b3&lt;&lt;&quot; &quot;&lt;&lt;b4&lt;&lt;endl;</span></span><br><span class="line">		a1=((b1&lt;&lt;<span class="number">2</span>)%<span class="number">256</span>)+(b2&gt;&gt;<span class="number">4</span>);</span><br><span class="line">		a2=((b2&lt;&lt;<span class="number">4</span>)%<span class="number">256</span>)+(b3&gt;&gt;<span class="number">2</span>);</span><br><span class="line">		a3=((b3&lt;&lt;<span class="number">6</span>)%<span class="number">256</span>)+b4;</span><br><span class="line">		r+=<span class="number">3</span>;</span><br><span class="line">		ans.<span class="built_in">push_back</span>(<span class="built_in">char</span>(a1));</span><br><span class="line">		ans.<span class="built_in">push_back</span>(<span class="built_in">char</span>(a2));</span><br><span class="line">		ans.<span class="built_in">push_back</span>(<span class="built_in">char</span>(a3));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(b4==<span class="string">&#x27;=&#x27;</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(b3==<span class="string">&#x27;=&#x27;</span>)&#123;</span><br><span class="line">			b1=alter[(<span class="type">char</span>)b1];</span><br><span class="line">			b2=alter[(<span class="type">char</span>)b2];</span><br><span class="line">			r+=<span class="number">1</span>;</span><br><span class="line">			a1=((b1&lt;&lt;<span class="number">2</span>)%<span class="number">256</span>)+(b2&gt;&gt;<span class="number">4</span>);</span><br><span class="line">			ans.<span class="built_in">push_back</span>(<span class="built_in">char</span>(a1));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(b3!=<span class="string">&#x27;=&#x27;</span>)&#123;</span><br><span class="line">			b1=alter[(<span class="type">char</span>)b1];</span><br><span class="line">			b2=alter[(<span class="type">char</span>)b2];</span><br><span class="line">			b3=alter[(<span class="type">char</span>)b3];</span><br><span class="line">			r+=<span class="number">2</span>;</span><br><span class="line">			a1=((b1&lt;&lt;<span class="number">2</span>)%<span class="number">256</span>)+(b2&gt;&gt;<span class="number">4</span>);</span><br><span class="line">			a2=((b2&lt;&lt;<span class="number">4</span>)%<span class="number">256</span>)+(b3&gt;&gt;<span class="number">2</span>);</span><br><span class="line">			ans.<span class="built_in">push_back</span>(<span class="built_in">char</span>(a1));</span><br><span class="line">			ans.<span class="built_in">push_back</span>(<span class="built_in">char</span>(a2));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;	</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">64</span>;i++)&#123;</span><br><span class="line">		alter[base64t[i]]=i;</span><br><span class="line">	&#125;</span><br><span class="line">	string s;</span><br><span class="line">	cin&gt;&gt;s; </span><br><span class="line">	<span class="type">int</span> len=s.<span class="built_in">length</span>();</span><br><span class="line">	<span class="type">int</span> n=len<span class="number">-4</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i+=<span class="number">4</span>)&#123;</span><br><span class="line">		<span class="type">char</span> b1=s[i];</span><br><span class="line">		<span class="type">char</span> b2=s[i<span class="number">+1</span>];</span><br><span class="line">		<span class="type">char</span> b3=s[i<span class="number">+2</span>];</span><br><span class="line">		<span class="type">char</span> b4=s[i<span class="number">+3</span>];</span><br><span class="line">		<span class="built_in">change</span>(&amp;b1,&amp;b2,&amp;b3,&amp;b4);</span><br><span class="line">		r=r<span class="number">+3</span>;</span><br><span class="line">		ans.<span class="built_in">push_back</span>(b1);</span><br><span class="line">		ans.<span class="built_in">push_back</span>(b2);</span><br><span class="line">		ans.<span class="built_in">push_back</span>(b3);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">char</span> e1,e2,e3,e4;</span><br><span class="line">	e1=s[len<span class="number">-4</span>];</span><br><span class="line">	e2=s[len<span class="number">-3</span>];</span><br><span class="line">	e3=s[len<span class="number">-2</span>];</span><br><span class="line">	e4=s[len<span class="number">-1</span>];</span><br><span class="line">	<span class="built_in">endw</span>(&amp;e1,&amp;e2,&amp;e3,&amp;e4);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;r;i++)cout&lt;&lt;ans[i];</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>一下为2023.3.12更新</p>
+<h1 id="TEA"><a href="#TEA" class="headerlink" title="TEA"></a>TEA</h1><p>明文8字节，密钥16字节，加解密简单</p>
+<p>关键代码：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">v0 += ((v1 &lt;&lt; <span class="number">4</span>) + k0) ^ (v1 + sum) ^ ((v1 &gt;&gt; <span class="number">5</span>) + k1); </span><br><span class="line">v1 += ((v0 &lt;&lt; <span class="number">4</span>) + k2) ^ (v0 + sum) ^ ((v0 &gt;&gt; <span class="number">5</span>) + k3);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="XTEA"><a href="#XTEA" class="headerlink" title="XTEA"></a>XTEA</h1><p>link:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gsls200808/article/details/48243019">https://blog.csdn.net/gsls200808/article/details/48243019</a></p>
+</blockquote>
+<p>好吧确实我太懒了</p>
+<h1 id="XXTEA"><a href="#XXTEA" class="headerlink" title="XXTEA"></a>XXTEA</h1><p>link同上</p>
+<p>好吧确实我还是太懒了。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">tgrddf55</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/03/11/2023-03-11-%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/">http://example.com/2023/03/11/2023-03-11-常见加密算法学习（1）/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">tgrddf55's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/encrypt/">encrypt</a></div><div class="post_share"><div class="social-share" data-image="/image/49.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/14/2023-03-14-z3%E5%BA%93%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%9C%A8RE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" title="z3库的学习"><img class="cover" src="/image/9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">z3库的学习</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/10/2023-03-10-ELF%E6%96%87%E4%BB%B6%E7%9A%84%E9%83%A8%E5%88%86%E7%9F%A5%E8%AF%86/" title="ELF文件的部分知识"><img class="cover" src="/image/43.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ELF文件的部分知识</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/imgs/tgrddf55.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">tgrddf55</div><div class="author-info__description">几时归去，做个闲人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/tgrddf55" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/455700704" target="_blank" title="bilibili"><i class="fab fa-bilibili" style="color: #00aeff;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AES"><span class="toc-text">AES</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RC4"><span class="toc-text">RC4</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#base64"><span class="toc-text">base64</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TEA"><span class="toc-text">TEA</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XTEA"><span class="toc-text">XTEA</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XXTEA"><span class="toc-text">XXTEA</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks"><img src="/image/32.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="asis_2016_b00ks"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-asis_2016_b00ks/" title="asis_2016_b00ks">asis_2016_b00ks</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn"><img src="/image/15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="领航杯2024决赛pwn"/></a><div class="content"><a class="title" href="/2024/11/15/2024-11-15-%E9%A2%86%E8%88%AA%E6%9D%AF2024%E5%86%B3%E8%B5%9Bpwn/" title="领航杯2024决赛pwn">领航杯2024决赛pwn</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用"><img src="/image/51.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="glibc2.27-2.35 tcache堆利用"/></a><div class="content"><a class="title" href="/2024/11/15/2025-02-28-glibc2.27-2.35%20tcache%E5%A0%86%E5%88%A9%E7%94%A8/" title="glibc2.27-2.35 tcache堆利用">glibc2.27-2.35 tcache堆利用</a><time datetime="2024-11-14T16:00:00.000Z" title="发表于 2024-11-15 00:00:00">2024-11-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017"><img src="/image/48.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="babyheap_0ctf_2017"/></a><div class="content"><a class="title" href="/2024/10/21/2024-10-21-babyheap_0ctf_2017/" title="babyheap_0ctf_2017">babyheap_0ctf_2017</a><time datetime="2024-10-20T16:00:00.000Z" title="发表于 2024-10-21 00:00:00">2024-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit"><img src="/image/54.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="house_of_spirit"/></a><div class="content"><a class="title" href="/2024/10/18/2024-10-18-house_of_spirit/" title="house_of_spirit">house_of_spirit</a><time datetime="2024-10-17T16:00:00.000Z" title="发表于 2024-10-18 00:00:00">2024-10-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/image/49.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By tgrddf55</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
